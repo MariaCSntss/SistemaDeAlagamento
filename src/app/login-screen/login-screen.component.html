@@ -1,0 +1,89 @@
+<div class="container">
+
+    <div class="container-logo">
+        <img src="/assets/logos/logo.png">
+        <h1>Sistema Monitoramento e Previsão de Enchentes</h1>
+    </div>
+
+    
+    <form>
+
+        <app-form-field 
+
+        [Name]="'LoginEmail'"
+
+        [_Width]="300"
+        [_Height]="44"
+
+        [FieldType]="FormFieldTypes.TxtBox"
+        [_Options]="[]"
+
+        [IconEnabled]="true"
+        [_Icon]="IconsEnum.User"
+        [_IconColor]="'var(--verdeAzulado)'"
+
+        [_FontSize]="16"
+        [_FontColor]="'var(--azulEscuro)'"
+        [_FontWeight]="400"
+        [_FontFamily]="'CoreFont'"
+        [TxtInputType]="FormFieldTxtInputTypesEnum.Email"
+        
+
+        [_placeHolderValue]="'Email'"
+        [NumberMaskSufix]="''"
+        [NCasasDecimais]="0"
+        [CountryDataFormat]="FormFieldCountryDataFormat.Brasil"
+        />
+
+        <app-form-field 
+
+        [Name]="'LoginPassword'"
+
+        [_Width]="300"
+        [_Height]="44"
+
+        [FieldType]="FormFieldTypes.TxtBox"
+        [_Options]="[]"
+
+        [IconEnabled]="true"
+        [_Icon]="IconsEnum.Key"
+        [_IconColor]="'var(--verdeAzulado)'"
+
+        [_FontSize]="16"
+        [_FontColor]="'var(--azulEscuro)'"
+        [_FontWeight]="400"
+        [_FontFamily]="'CoreFont'"
+        [TxtInputType]="FormFieldTxtInputTypesEnum.Password"
+        
+
+        [_placeHolderValue]="'Password'"
+        [NumberMaskSufix]="''"
+        [NCasasDecimais]="0"
+        [CountryDataFormat]="FormFieldCountryDataFormat.Estados_Unidos"
+        />
+     
+
+      
+    
+       
+        
+
+ 
+    </form>
+
+   <div class="buttons"> 
+       <app-button
+        [name]="'LoginEntrar'"
+        />
+
+        <app-button
+        [name]="'Registrar'"
+        />
+
+        </div>
+</div>
+
+<app-alert></app-alert>
+
+
+

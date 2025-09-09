@@ -1,0 +1,236 @@
+
+
+/* Mobile First */
+
+ .container {
+  margin: 20px auto;
+  max-width: 95vw;
+  background: #FFFFFF;
+  border-radius: 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+ .container > .create-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  height: 70%;
+  width: 100%;
+  padding-top: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+.container > img{
+  align-self: flex-start;
+  margin: 20px 0px 10px 10px;
+  width: 70px;
+}
+.container > .create-container > div {
+}
+.container > .create-container > div > .labels{
+  font-family: 'Instrument_SansMedium';
+  text-align: left;
+  width: 260px;
+  margin-bottom: 6px;
+  color: rgb(44, 43, 43);
+  font-size: 12px;
+}
+.container > .create-container >  app-form-field{
+    margin-bottom: 20px;   
+}
+.container > .create-container > div > .container-validacao{
+  display: flex;
+  flex-direction: column;
+}
+.container > .create-container > div > .container-validacao > div{
+  display: flex;
+  flex-direction: row;
+}
+.container > .create-container > div > .container-validacao > div > i{
+  margin-left: 20px;
+  font-size: 14px;
+  line-height: 0;
+  transform: translateY(2px);
+}
+.container > .create-container > div > .container-validacao > div > p{
+  margin-left: 5px;
+  font-family: 'robotoLight';
+  font-size: 14px;
+  white-space: pre-line;
+}
+.container > .create-container > .container-buttons{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding-top: 50px;
+}
+.container > .create-container > .container-buttons >  app-button{
+    margin-bottom: 20px;   
+}
+ .container > .instrucao-container{
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  background: #00AEEF;
+  border-radius: 50px 50px 60px 60px;
+  width: 100%;
+  height: 380px;
+}
+
+ .container > .instrucao-container > h1 {
+    font-family: 'robotoMedium';
+    margin-bottom: 20px;
+    color: white;
+    font-size: 25px;
+    text-align: center;
+}
+ .container > .instrucao-container > ol {
+  max-width: 80%;
+}
+ .container > .instrucao-container > ol > li {
+  list-style: circle;
+  margin-top: 10px;
+  text-align: justify;
+  font-family: 'Instrument_SansMedium';
+  font-weight: 200;
+  color: white;
+  font-size: 14px;
+}
+
+.popup{
+  background-color: #FFFFFF;
+  position:fixed;
+  top: 10px;
+  left: calc((50dvw) - 150px);
+  width: 300px;
+  height: 620px;
+  box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.425);
+  
+  border-radius: 40px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 10px 20px;
+  box-sizing: border-box;
+
+}
+.popup > i{
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  cursor: pointer;
+}
+.popup > img{
+  height: 200px;
+  margin-bottom: 10px;
+  
+}
+.popup > .container{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+}
+.popup > .container > p{
+  font-family: 'robotoMedium';
+  font-size: 15px;
+  margin-top: 10px;
+  text-align: justify;
+}
+.popup > .container > button{
+  margin-top: 20px;
+  width: 240px;
+  padding: 10px 20px;
+  font-family: 'robotoMedium';
+  color:white;
+  font-size: 15px;
+  border-radius: 7px;
+  cursor: pointer;
+}
+.popup > .container > button:active{
+  transform: scale(0.97);
+}
+
+
+
+@media only screen and (min-width: 600px) {
+  .container{
+    height: 95dvh;
+  }
+   .container > .create-container{
+      display: grid;
+      grid-template-columns: 1fr 1fr; /* Duas colunas de largura igual */
+      justify-items: center;
+      align-items: center;
+      gap: 10px;
+      padding-bottom: 50px;
+  }
+  .container > .create-container > div > .labels{
+    font-size: 13px;
+  }
+  .popup {
+    width: 400px;
+    height: 820px;
+    left: calc((50dvw) - 200px);
+    margin-top: 25px;
+  }
+  .popup >img {
+    height: 300px;
+  }
+  .popup > .container > p{
+  font-size: 18px;
+}
+}
+@media only screen and (min-width: 1040px) {
+  .container{
+    flex-direction: row;
+    align-items: start;
+    height: 94vh;
+  }
+  .container .instrucao-container{
+    border-radius: 50px 50px 60px 50px;
+    height: 100%;
+    width: 50%;
+
+  }
+  .container > .instrucao-container > ol > li {
+    font-size: 15px;
+  }
+  .container > .create-container{
+    padding: 0px;
+    max-height: 350px;
+    padding-top: 50px;
+  }
+  .container > .create-container > .container-buttons{
+    padding-top: 5px;
+  }
+  .popup{
+    flex-direction: row;
+    width: 800px;
+    height: 400px;  
+    top: 50px;
+    left: calc((100vw/2) - 400px);
+  }
+  .popup > .container{
+    justify-content: center;
+  }
+
+}
+@media only screen and (min-width: 1300px) {
+  .container{
+    max-width: 1200px;
+  }
+  .container .instrucao-container{
+    height: 100%;
+  }
+
+
+}

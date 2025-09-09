@@ -1,0 +1,43 @@
+.container{
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 130px;
+}
+.container > div{
+    display: flex;
+   flex-direction: row-reverse;
+    padding: 10px 10px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    max-width: 70%;
+    max-height: 100px;
+
+}
+.container > div > .container-close{
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 10px;
+}
+.container > div > .container-close > i{
+    cursor: pointer;
+    padding: 4px;
+    transform: translate(8px,-8px);
+}
+.container > div > .container-text{
+    display: flex;
+     padding-top: 10px;
+}
+.container > div > .container-text > i{
+    line-height: 0px;
+    transform: translateY(2px);
+    font-size: 18px;
+    margin-right: 7px;
+}
+.container > div > .container-text > p{
+    font-family: 'roboto';
+    font-weight: 400;
+    font-size: 18px;
+}

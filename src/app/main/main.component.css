@@ -1,0 +1,36 @@
+
+/************************************************** Mobile First *********************************************/
+
+h1,h2,h3,p,a{
+    font-family: 'CoreFont';
+}
+.container{
+    padding-top: 5.2955vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.container > .container-logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 260px;
+}
+
+
+.container > .container-logo > img{
+    width: 150px;
+    height: 150px;
+}
+.container > .container-logo > h1{
+    font-size: calc(var(--FontSize)*1.683);
+    font-weight: 600;
+    color: var(--logo);
+    margin-left: 4px;
+}
+.container > .container-logo > h1:hover{
+    cursor:default;
+}

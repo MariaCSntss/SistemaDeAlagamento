@@ -1,0 +1,329 @@
+<!-- <app-background/> -->
+
+<div class="container">
+
+  <div class="instrucao-container">
+    <h1>Instruções</h1>
+    <ol>
+      <li>Por favor preencha todos os campos, todas as validações devem estar verdes;</li>
+      <li>Após preenche-los, clique no botão "Solicitar";</li>
+      <li>Você receberá um link de confirmação no seu email, é só clicar nele que o técnico responsável receberá sua solicitação de conta;</li>
+      <li>Assim que o técnico aprovar sua solicitação iremos lhe informar;</li>
+      <li>Então poderá fazer login normalmente.</li>
+    </ol>
+  </div>
+      <img src="/assets/logo-lhoist.png">
+      <form class="create-container">
+        <div>
+          <p class="labels">Nome</p>
+          <app-form-field
+          id="nome"
+          [Name]="'create-account-nome'"
+          [_Width]="260"
+          [_Height]="44"
+          [FieldType]="FormFieldTypes.TxtBox"
+          [_Options]="[]"
+          [IconEnabled]="false"
+          [_Icon]="IconsEnum.User"
+          [_IconColor]="'var(--fundoPreto)'"
+          [_FontSize]="14"
+          [_FontColor]="'var(--fundoPreto)'"
+          [_FontWeight]="200"
+          [_FontFamily]="'Instrument_SansMedium'"
+          [TxtInputType]="FormFieldTxtInputTypesEnum.Email"
+          [_placeHolderValue]="'Ex: Matheus'"
+          [NumberMaskSufix]="''"
+          [NCasasDecimais]="0"
+          [CountryDataFormat]="FormFieldCountryDataFormat.Brasil"
+          />
+          <div 
+          [style.display]="nomeValidacaoVisible ? '' : 'none'"
+          class="container-validacao"
+          >
+            <div>
+              <p class="N_Caracteres">{{nomeNCaracteres.toString()}}/15</p>
+              <i
+              [style.color]=" nomeValido ? 'green': 'red'"
+              class="{{nomeValido ? this.IconsEnum.Done_OutLine : this.IconsEnum.Alert}}"></i>
+              <p
+              [style.color]=" nomeValido ? 'green': 'red'">
+              {{nomeValido ? 'Ok' : 'Nome Inválido'}}
+              </p>
+            </div>
+
+            </div>
+        </div>
+        <div>
+          <p class="labels">Sobrenome</p>
+          <app-form-field
+          [Name]="'create-account-sobrenome'"
+          [_Width]="260"
+          [_Height]="44"
+          [FieldType]="FormFieldTypes.TxtBox"
+          [_Options]="[]"
+          [IconEnabled]="false"
+          [_Icon]="IconsEnum.User"
+          [_IconColor]="'var(--fundoPreto)'"
+          [_FontSize]="14"
+          [_FontColor]="'var(--fundoPreto)'"
+          [_FontWeight]="200"
+          [_FontFamily]="'Instrument_SansMedium'"
+          [TxtInputType]="FormFieldTxtInputTypesEnum.Email"
+          [_placeHolderValue]="'Ex: Oliveira'"
+          [NumberMaskSufix]="''"
+          [NCasasDecimais]="0"
+          [CountryDataFormat]="FormFieldCountryDataFormat.Brasil"
+          />
+          <div
+          [style.display]="sobrenomeValidacaoVisible ? '' : 'none'"
+          class="container-validacao"
+          >
+            <div>
+              <p class="N_Caracteres">{{sobrenomeNCaracteres.toString()}}/15</p>
+              <i
+              [style.color]=" sobrenomeValido ? 'green': 'red'"
+              class="{{sobrenomeValido ? this.IconsEnum.Done_OutLine : this.IconsEnum.Alert}}"></i>
+              <p
+              [style.color]=" sobrenomeValido ? 'green': 'red'"
+              >{{sobrenomeValido ? 'Ok' : 'Sobrenome Inválido'}}</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p class="labels">Email</p>
+          <app-form-field
+          [Name]="'create-account-email'"
+          [_Width]="260"
+          [_Height]="44"
+          [FieldType]="FormFieldTypes.TxtBox"
+          [_Options]="[]"
+          [IconEnabled]="false"
+          [_Icon]="IconsEnum.User"
+          [_IconColor]="'var(--fundoPreto)'"
+          [_FontSize]="14"
+          [_FontColor]="'var(--fundoPreto)'"
+          [_FontWeight]="200"
+          [_FontFamily]="'Instrument_SansMedium'"
+          [TxtInputType]="FormFieldTxtInputTypesEnum.Email"
+          [_placeHolderValue]="'Ex: matheus.oliveira@empresa.com'"
+          [NumberMaskSufix]="''"
+          [NCasasDecimais]="0"
+          [CountryDataFormat]="FormFieldCountryDataFormat.Brasil"
+          />
+          <div 
+          [style.display]="emailValidacaoVisible ? '' : 'none'"
+          class="container-validacao"
+          >
+            <div>
+              <p class="N_Caracteres">{{emailNCaracteres.toString()}}/40</p>
+              <i
+              [style.color]=" emailValido ? 'green': 'red'"
+              class="{{emailValido ? this.IconsEnum.Done_OutLine : this.IconsEnum.Alert}}"></i>
+              <p
+              [style.color]=" emailValido ? 'green': 'red'"
+              >{{emailValido ? 'Ok' : 'Email Inválido'}}</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p class="labels">Senha</p>
+          <app-form-field
+          [Name]="'create-account-senha'"
+          [_Width]="260"
+          [_Height]="44"
+          [FieldType]="FormFieldTypes.TxtBox"
+          [_Options]="[]"
+          [IconEnabled]="true"
+          [_Icon]="IconsEnum.Key"
+          [_IconColor]="'var(--fundoPreto)'"
+          [_FontSize]="14"
+          [_FontColor]="'var(--fundoPreto)'"
+          [_FontWeight]="200"
+          [_FontFamily]="'Instrument_SansMedium'"
+          [TxtInputType]="FormFieldTxtInputTypesEnum.Password"
+          [_placeHolderValue]="'Senha'"
+          [NumberMaskSufix]="''"
+          [NCasasDecimais]="0"
+          [CountryDataFormat]="FormFieldCountryDataFormat.Brasil"
+          />
+          <div 
+          [style.display]="senhaValidacaoVisible ? '' : 'none'"
+          class="container-validacao"
+          >
+            <div>
+              <i
+              [style.color]=" senhaValido_carac ? 'green': 'red'"
+              class="{{senhaValido_carac ? this.IconsEnum.Done_OutLine : this.IconsEnum.Alert}}"></i>
+              <p
+              [style.color]=" senhaValido_carac ? 'green': 'red'"
+              >Mínimo 8 e Máximo de 33 Caract.</p>
+            </div>
+
+            <div>
+              <i
+              [style.color]=" senhaValido_maiuscula ? 'green': 'red'"
+              class="{{senhaValido_maiuscula ? this.IconsEnum.Done_OutLine : this.IconsEnum.Alert}}"></i>
+              <p
+              [style.color]=" senhaValido_maiuscula ? 'green': 'red'"
+              >Mínimo 1 Letra Maiúscula</p>
+            </div>
+
+            <div>
+              <i
+              [style.color]=" senhaValido_minuscula ? 'green': 'red'"
+              class="{{senhaValido_minuscula ? this.IconsEnum.Done_OutLine : this.IconsEnum.Alert}}"></i>
+              <p
+              [style.color]=" senhaValido_minuscula ? 'green': 'red'"
+              >Mínimo 1 Letra Minuscula</p>
+            </div>
+
+            <div>
+              <i
+              [style.color]=" senhaValido_numero ? 'green': 'red'"
+              class="{{senhaValido_numero ? this.IconsEnum.Done_OutLine : this.IconsEnum.Alert}}"></i>
+              <p
+              [style.color]=" senhaValido_numero ? 'green': 'red'"
+              >Mínimo 1 Número</p>
+            </div>
+
+            <div>
+              <i
+              [style.color]=" senhaValido_caracEspecial ? 'green': 'red'"
+              class="{{senhaValido_caracEspecial ? this.IconsEnum.Done_OutLine : this.IconsEnum.Alert}}"></i>
+              <p
+              [style.color]=" senhaValido_caracEspecial ? 'green': 'red'"
+              >{{'Mínimo 1 Caracter Especial,\n escolha um destes: #?!@$%^&*- '}}</p>
+            </div>
+
+          </div>
+        </div>
+        <div>
+          <p class="labels">Unidade</p>
+          <app-form-field
+          [Name]="'create-account-unidade'"
+          [_Width]="260"
+          [_Height]="44"
+          [FieldType]="FormFieldTypes.ComboBox"
+          [_Options]="this.bairroComboModel"
+          [IconEnabled]="false"
+          [_Icon]="IconsEnum.User"
+          [_IconColor]="'var(--fundoPreto)'"
+          [_FontSize]="14"
+          [_FontColor]="'var(--fundoPreto)'"
+          [_FontWeight]="200"
+          [_FontFamily]="'Instrument_SansMedium'"
+          [TxtInputType]="FormFieldTxtInputTypesEnum.Email"
+          [_placeHolderValue]="'Email'"
+          [NumberMaskSufix]="''"
+          [NCasasDecimais]="0"
+          [CountryDataFormat]="FormFieldCountryDataFormat.Brasil"
+          />
+
+        </div>
+        <div>
+          <p class="labels">Confirmação de Senha</p>
+          <app-form-field
+          [Name]="'create-account-confirmSenha'"
+          [_Width]="260"
+          [_Height]="44"
+          [FieldType]="FormFieldTypes.TxtBox"
+          [_Options]="[]"
+          [IconEnabled]="true"
+          [_Icon]="IconsEnum.Key"
+          [_IconColor]="'var(--fundoPreto)'"
+          [_FontSize]="14"
+          [_FontColor]="'var(--fundoPreto)'"
+          [_FontWeight]="200"
+          [_FontFamily]="'Instrument_SansMedium'"
+          [TxtInputType]="FormFieldTxtInputTypesEnum.Password"
+          [_placeHolderValue]="'Senha novamente'"
+          [NumberMaskSufix]="''"
+          [NCasasDecimais]="0"
+          [CountryDataFormat]="FormFieldCountryDataFormat.Brasil"
+          />
+          <div 
+          [style.display]="confirmSenhaValidacaoVisible ? '' : 'none'"
+          class="container-validacao"
+          >
+            <div>
+              <i
+              [style.color]=" confirmSenhaValido ? 'green': 'red'"
+              class="{{confirmSenhaValido ? this.IconsEnum.Done_OutLine : this.IconsEnum.Alert}}"></i>
+              <p
+              [style.color]=" confirmSenhaValido ? 'green': 'red'"
+              >{{confirmSenhaValido ? 'Ok' : 'As duas senhas não são iguais'}}</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p class="labels">Celular</p>
+          <app-form-field
+          [Name]="'create-account-celular'"
+          [_Width]="260"
+          [_Height]="44"
+          [FieldType]="FormFieldTypes.TxtBox"
+          [_Options]="[]"
+          [IconEnabled]="false"
+          [_Icon]="IconsEnum.User"
+          [_IconColor]="'var(--fundoPreto)'"
+          [_FontSize]="14"
+          [_FontColor]="'var(--fundoPreto)'"
+          [_FontWeight]="200"
+          [_FontFamily]="'Instrument_SansMedium'"
+          [TxtInputType]="FormFieldTxtInputTypesEnum.CellPhone"
+          [_placeHolderValue]="'Email'"
+          [NumberMaskSufix]="''"
+          [NCasasDecimais]="0"
+          [CountryDataFormat]="FormFieldCountryDataFormat.Brasil"
+          />
+          <div 
+          [style.display]="celularValidacaoVisible ? '' : 'none'"
+          class="container-validacao"
+          >
+            <div>
+              <p class="N_Caracteres">{{celularNCaracteres.toString()}}/11</p>
+              <i
+              [style.color]=" celularValido ? 'green': 'red'"
+              class="{{celularValido ? this.IconsEnum.Done_OutLine : this.IconsEnum.Alert}}"></i>
+              <p
+              [style.color]=" celularValido ? 'green': 'red'"
+              >{{celularValido ? 'Ok' : 'Celular Inválido'}}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="container-buttons">
+          <app-button
+          [name]="'create-account-solicitar'"
+          
+          />
+          <app-button
+          [name]="'create-account-voltar'"
+          
+          />
+        </div>
+      </form>
+</div>
+
+<div class="popup"
+[style.display]="popUpVisible ? 'flex' : 'none'"
+>
+  <i class="{{IconsEnum.Close}}"
+  (click)="fecharPopUp()"
+  ></i>
+  <img src="/assets/EVA_Sorrindo.png">
+  <div class="container">
+    <p>{{`Olá me chamo E.V.A (Environment Virtual Agent), e sou responsável pelas automações da Lightning Technologies!`}}</p>
+    <p>{{`Acabei de enviar um email de confirmação para o email cadastrado, por favor clique no link para confirma-lo, não se esqueça de verificar a caixa de spam e lixeira em 😉`}}</p>
+    <p>{{`Caso não tenha recebido o email, você poderá reenvia-lo em ${segundosParaReenviar} segundos, e caso ja tenha confirmado, você já pode fechar esta janela`}}</p>
+    <button
+    [disabled]="segundosParaReenviar > 0 ? true : false"
+    [style.background-color]="segundosParaReenviar > 0 ? 'gray': 'var( --azulClaroVibrante)' "
+    [style.cursor]="segundosParaReenviar > 0 ? 'default': 'pointer' "
+    (click)="reenviarEmail()"
+    >
+      Reenviar Email
+    </button>
+  </div>
+
+</div>
