@@ -4,16 +4,31 @@ export class UsuarioModel {
   email!: string;
   senha!: string;
   celular!: string;
+  desejaNotificacao!: boolean;
+  recebeuNotificacao!: number;
 
   autenticado: boolean = false;
   token!: string;
+
+  consultaUsuarios?: ConsultaUsuarios[]; 
+
+}
+
+export class ConsultaUsuarios {
+  id!: number;
+  usuarioFK!: number;
+  descricao!: string;
+  latitude!: number;
+  longitude!: number;
+
+
 }
 
 export class Localizacao {
   localizacaoID!: number;
-  descricao!: string;
   latitude!: number;
   longitude!: number;
+  dataConsulta!: string;
 
   dispositivos?: Dispositivo[]; 
 }
@@ -21,14 +36,14 @@ export class Localizacao {
 export class Dispositivo {
   dispositivoID!: number;
   nome!: string;
-  localizacaoID!: number;
+  localizacaoFK!: number;
 
   sensores?: Sensor[];
 }
 
 export class Sensor {
   sensorID!: number;
-  dispositivoID!: number;
+  dispositivoFK!: number;
   tipo!: string;
   unidadeMedida!: string;
 
@@ -37,10 +52,8 @@ export class Sensor {
 
 export class LeituraHistorico {
   leituraHistID!: number;
-  sensorID!: number;
+  sensorFK!: number;
   valorMedido!: number;
   dataHoraLeitura!: string;
 
-  latitudeUsuario?: number;
-  longitudeUsuario?: number;
 }

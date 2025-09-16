@@ -5,16 +5,17 @@ import { AlertTypesEnum } from '../alert/alert.enum';
 import { Router } from '@angular/router';
 import {FormsModule} from '@angular/forms';
 import { AppService } from '../app.service';
-import { UsuarioModel, Bairro } from '../app.model';
+import { UsuarioModel } from '../app.model';
 import { WINDOW } from '../app.service';
 import { AppValidations } from '../app.validations';
 import { CreateAccountService } from './create-account.service';
 import { Subject, takeUntil } from 'rxjs';
 import { ConfigButtonsCreateAccount } from './config.buttons';
+import { AlertComponent } from "../alert/alert.component";
 
 @Component({
   selector: 'app-create-account',
-  imports: [lib.FormFieldComponent,lib.ButtonComponent,FormsModule],
+  imports: [lib.FormFieldComponent, lib.ButtonComponent, FormsModule, AlertComponent],
   templateUrl: './create-account.component.html',
   styleUrl: './create-account.component.css'
 })
@@ -31,7 +32,6 @@ export class CreateAccountComponent implements OnDestroy {
   
     ngOnInit(): void {
       this.screenWidth = this._window.innerWidth;
-      this.getBairros();
       this.startListenToTxtBox();
       this.startListenToButton();
       this.AppService.usuarioAutenticado = new UsuarioModel();
@@ -62,11 +62,6 @@ export class CreateAccountComponent implements OnDestroy {
     nomeValidacaoVisible : boolean = false;
     nomeNCaracteres : number = 0;
 
-    sobrenome :string = '';
-    sobrenomeValido : boolean = false;
-    sobrenomeValidacaoVisible : boolean = false;
-    sobrenomeNCaracteres : number = 0;
-
     celular :string = '';
     celularValido : boolean = false;
     celularValidacaoVisible : boolean = false;
@@ -89,11 +84,6 @@ export class CreateAccountComponent implements OnDestroy {
     confirmSenhaValido : boolean = false;
     confirmSenhaValidacaoVisible : boolean = false;
 
-    bairroComboModel :lib.FormFieldComboModel[] = [];
-    bairroValido : boolean = false;
-    bairroValidacaoVisible : boolean = false;
-    bairroNCaracteres : number = 0;
-    bairroFk:string = '';
 
     validacoes = new AppValidations();
   
@@ -123,16 +113,6 @@ export class CreateAccountComponent implements OnDestroy {
               this.nome = (formData.field as lib.FormFielTxtModel).value;
             }else{
               this.nome = ''
-            }
-          break;
-          case ('create-account-sobrenome'):
-            this.sobrenomeValidacaoVisible = true;
-            this.sobrenomeNCaracteres = (formData.field as lib.FormFielTxtModel).value.length;
-            this.sobrenomeValido = this.validacoes.sobrenomeValido((formData.field as lib.FormFielTxtModel).value)
-            if(this.sobrenomeValido){
-              this.sobrenome = (formData.field as lib.FormFielTxtModel).value;
-            }else{
-              this.sobrenome = '';
             }
           break;
           case ('create-account-email'):
@@ -168,9 +148,6 @@ export class CreateAccountComponent implements OnDestroy {
             this.confirmSenhaValidacaoVisible = true;
             this.confirmSenhaValido = this.senha == (formData.field as lib.FormFielTxtModel).value && this.senha != '' ? true : false;
           break;
-          case ('create-account-bairro'):
-            this.bairroFk = (formData.field as lib.FormFieldComboModel).id.toString();
-          break;
           case ('create-account-celular'):
             this.celularValidacaoVisible = true;
             this.celularNCaracteres = (formData.field as lib.FormFielTxtModel).value.length;
@@ -188,26 +165,26 @@ export class CreateAccountComponent implements OnDestroy {
     startListenToButton() {
       this._ButtonService.click.pipe(takeUntil(this.destroy)).subscribe((Button)=>{
        switch (Button){
-         case ('create-account-solicitar'):
+         case ('create-account-registrar'):
+
             if(
               this.nome != '' &&
-              this.sobrenome != '' &&
               this.email != '' &&
               this.senha != '' &&
-              this.celular != '' &&
-              this.bairroFk != ''
+              this.celular != '' 
+              
             ){
-              this.AppService.setButtonLaodingState('create-account-solicitar',false)
-              this.popUpVisible = true;
-              this.segundosParaReenviar = 60;
-              this.iniciarDecremento();
+              this.AppService.setButtonLaodingState('create-account-registrar',true);
               this.postNewUser();
+              this.AppService.MostrarAlerta('Usuario adicionado, faça login',this.AlertTypesEnum.OK);
+
+              
             }else{
               this.AppService.MostrarAlerta('Preencha todos os campos',this.AlertTypesEnum.Alert);
             }
            break;
           case ('create-account-voltar'):
-            this.AppService.setButtonLaodingState('create-account-voltar',false)
+            this.AppService.setButtonLaodingState('create-account-voltar',false);
             this.router.navigate(['/login']);
           break;
        }
@@ -215,31 +192,16 @@ export class CreateAccountComponent implements OnDestroy {
       })
     }
 
-    getBairros(){
-      this.CreateAccountService.getBairros(this.empresaFK).pipe(takeUntil(this.destroy)).subscribe({
-        next:(json)=>{
-          let bairro = JSON.parse(JSON.stringify(json)).data;
-          bairro.forEach((br:Bairro) => {
-            let model = new lib.FormFieldComboModel();
-            model.id = br.bairroId;
-            model.value = br.descricao;
-            this.bairroComboModel.push(model);
-          });
-          this.bairroFk = this.bairroComboModel[0].id.toString();
-        },
-        error:(err)=>{
-          console.log(err);
-        }
-      });
-    }
     postNewUser(){
       let userModel = new UsuarioModel();
-      userModel.primeiroNome = this.nome;
-      userModel.sobrenome = this.sobrenome;
+      userModel.nomeCompleto = this.nome;
       userModel.email = this.email;
       userModel.senha = this.senha;
       userModel.celular = this.celular;
-      userModel.bairroFK = this.bairroFk;
+      userModel.desejaNotificacao = false;
+      userModel.recebeuNotificacao = 0;
+     
+this.AppService.setButtonLaodingState('create-account-registrar',false);
       this.CreateAccountService.postNewUser(userModel).pipe(takeUntil(this.destroy)).subscribe({
         next:(json)=>{
         },
@@ -264,17 +226,6 @@ export class CreateAccountComponent implements OnDestroy {
     return () => clearTimeout(timeoutId);
   }
 
-  reenviarEmail(){
-    this.AppService.setButtonLaodingState('create-account-solicitar',false);
-    this.popUpVisible = true;
-    this.segundosParaReenviar = 60;
-    this.iniciarDecremento();
-    this.postNewUser();
-  }
-  fecharPopUp(){
-    this.segundosParaReenviar = 60;
-    this.popUpVisible = false;
-    this.router.navigate(['/login']);
-  }
-  
+
+
 }

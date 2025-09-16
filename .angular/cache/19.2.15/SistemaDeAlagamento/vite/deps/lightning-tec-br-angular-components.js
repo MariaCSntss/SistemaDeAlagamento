@@ -1,6 +1,6 @@
 import {
   NgxMaskDirective
-} from "./chunk-BEPKW53D.js";
+} from "./chunk-EVJPBVCH.js";
 import {
   DefaultValueAccessor,
   FormsModule,
@@ -9,12 +9,12 @@ import {
   NgSelectOption,
   SelectControlValueAccessor,
   ɵNgSelectMultipleOption
-} from "./chunk-7CFOVS4O.js";
+} from "./chunk-RSPD6FF4.js";
 import {
   CommonModule,
   NgStyle
-} from "./chunk-AW6VRP4R.js";
-import "./chunk-K7HVY5B7.js";
+} from "./chunk-C4YZQ674.js";
+import "./chunk-CF3R7NKO.js";
 import {
   ChangeDetectorRef,
   Component,
@@ -354,7 +354,6 @@ var IconsEnum;
   IconsEnum2["AddFile"] = "fi fi-rr-add-document";
   IconsEnum2["AddUser"] = "fi fi-sr-user-add";
   IconsEnum2["Alert"] = "fi fi-sr-exclamation";
-  IconsEnum2["Bug"] = "fi fi-sr-bug-fix";
   IconsEnum2["Camera"] = "fi fi-rr-camera";
   IconsEnum2["Close"] = "fi fi-br-cross";
   IconsEnum2["Company"] = "fi fi-rs-building";
@@ -381,7 +380,6 @@ var IconsEnum;
   IconsEnum2["Prazo_Atencao"] = "fi fi-ss-deadline";
   IconsEnum2["Refresh"] = "fi fi-rr-rotate-right";
   IconsEnum2["Rotas"] = "fi fi-br-route";
-  IconsEnum2["Save_Outline"] = "fi fi-br-disk";
   IconsEnum2["User"] = "fi fi-sr-user";
 })(IconsEnum || (IconsEnum = {}));
 var AlertComponent = class _AlertComponent {
@@ -914,6 +912,18 @@ var ButtonIconPositionEnum;
   ButtonIconPositionEnum2[ButtonIconPositionEnum2["Bottom"] = 2] = "Bottom";
   ButtonIconPositionEnum2[ButtonIconPositionEnum2["Left"] = 3] = "Left";
 })(ButtonIconPositionEnum || (ButtonIconPositionEnum = {}));
+var ButtonFontWeights;
+(function(ButtonFontWeights2) {
+  ButtonFontWeights2[ButtonFontWeights2["Thin"] = 100] = "Thin";
+  ButtonFontWeights2[ButtonFontWeights2["ExtraLight"] = 200] = "ExtraLight";
+  ButtonFontWeights2[ButtonFontWeights2["Light"] = 300] = "Light";
+  ButtonFontWeights2[ButtonFontWeights2["Regular"] = 400] = "Regular";
+  ButtonFontWeights2[ButtonFontWeights2["Medium"] = 500] = "Medium";
+  ButtonFontWeights2[ButtonFontWeights2["SemiBold"] = 600] = "SemiBold";
+  ButtonFontWeights2[ButtonFontWeights2["Bold"] = 700] = "Bold";
+  ButtonFontWeights2[ButtonFontWeights2["Extrabold"] = 800] = "Extrabold";
+  ButtonFontWeights2[ButtonFontWeights2["Black"] = 900] = "Black";
+})(ButtonFontWeights || (ButtonFontWeights = {}));
 var ButtonService = class _ButtonService {
   constructor() {
     this.click = new Subject();
@@ -1090,7 +1100,7 @@ var ButtonComponent = class _ButtonComponent {
           let tmp_1_0;
           let tmp_6_0;
           let tmp_19_0;
-          ɵɵstyleProp("background-color", ctx.ButtonType == ctx.ButtonTypeEnum.Outline ? ctx.EnabledState ? "transparent" : "gray" : ctx.EnabledState ? ctx._BackGroundColor : "gray")("border-radius", ((tmp_1_0 = ctx.BorderRadius) !== null && tmp_1_0 !== void 0 ? tmp_1_0 : 5).toString() + "px")("border", ctx.ButtonType == ctx.ButtonTypeEnum.Outline && ctx.EnabledState ? `${ctx.OutlineBorderSize}px solid ${ctx._BackGroundColor}` : "")("width", ctx.Width + "px")("height", ctx.Height + "px")("flex-direction", ctx._IconOrientation)("cursor", ((tmp_6_0 = ctx.EnabledState) !== null && tmp_6_0 !== void 0 ? tmp_6_0 : true) ? "pointer" : "default")("--transition", !ctx.EnabledState ? "0s" : "0.05s")("--transformHover", !ctx.EnabledState ? "1" : "1.05")("--transformActive", !ctx.EnabledState ? "1" : "0.95");
+          ɵɵstyleProp("background-color", ctx.ButtonType == ctx.ButtonTypeEnum.Outline ? "transparent" : ctx.EnabledState ? ctx._BackGroundColor : "gray")("border-radius", ((tmp_1_0 = ctx.BorderRadius) !== null && tmp_1_0 !== void 0 ? tmp_1_0 : 5).toString() + "px")("border", ctx.ButtonType == ctx.ButtonTypeEnum.Outline ? `${ctx.OutlineBorderSize}px solid ${ctx._BackGroundColor}` : "")("width", ctx.Width + "px")("height", ctx.Height + "px")("flex-direction", ctx._IconOrientation)("cursor", ((tmp_6_0 = ctx.EnabledState) !== null && tmp_6_0 !== void 0 ? tmp_6_0 : true) ? "pointer" : "default")("--transition", !ctx.EnabledState ? "0s" : "0.05s")("--transformHover", !ctx.EnabledState ? "1" : "1.05")("--transformActive", !ctx.EnabledState ? "1" : "0.95");
           ɵɵadvance();
           ɵɵclassMap(ctx.Icon);
           ɵɵstyleProp("color", ctx.EnabledState ? ctx._IconColor : "white")("font-size", ctx.IconFontSize + "px")("display", ctx.IconEnabled && !ctx.LoadingState ? "" : "none");
@@ -1116,12 +1126,9 @@ var ButtonComponent = class _ButtonComponent {
       standalone: true,
       imports: [CommonModule],
       template: `<button\r
-[style.background-color]="\r
-ButtonType == ButtonTypeEnum.Outline \r
-? EnabledState ? 'transparent' : 'gray'\r
-: EnabledState ? _BackGroundColor : 'gray'"\r
+[style.background-color]="ButtonType == ButtonTypeEnum.Outline ? 'transparent' : EnabledState ? _BackGroundColor : 'gray'"\r
 [style.border-radius]="(BorderRadius ?? 5).toString()+'px'"\r
-[style.border]="ButtonType == ButtonTypeEnum.Outline && EnabledState ? \`\${OutlineBorderSize}px solid \${_BackGroundColor}\` : '' "\r
+[style.border]="ButtonType == ButtonTypeEnum.Outline ? \`\${OutlineBorderSize}px solid \${_BackGroundColor}\` : '' "\r
 [style.width]="Width + 'px'"\r
 [style.height]="Height + 'px'"\r
 [style.flex-direction]="this._IconOrientation"\r
@@ -1171,10 +1178,26 @@ ButtonType == ButtonTypeEnum.Outline \r
     type: ElementRef
   }], null);
 })();
+var ListItemPositions;
+(function(ListItemPositions2) {
+  ListItemPositions2[ListItemPositions2["Top"] = 0] = "Top";
+  ListItemPositions2[ListItemPositions2["Center"] = 1] = "Center";
+})(ListItemPositions || (ListItemPositions = {}));
+var ListItemFontWeights;
+(function(ListItemFontWeights2) {
+  ListItemFontWeights2[ListItemFontWeights2["Thin"] = 100] = "Thin";
+  ListItemFontWeights2[ListItemFontWeights2["ExtraLight"] = 200] = "ExtraLight";
+  ListItemFontWeights2[ListItemFontWeights2["Light"] = 300] = "Light";
+  ListItemFontWeights2[ListItemFontWeights2["Regular"] = 400] = "Regular";
+  ListItemFontWeights2[ListItemFontWeights2["Medium"] = 500] = "Medium";
+  ListItemFontWeights2[ListItemFontWeights2["SemiBold"] = 600] = "SemiBold";
+  ListItemFontWeights2[ListItemFontWeights2["Bold"] = 700] = "Bold";
+  ListItemFontWeights2[ListItemFontWeights2["Extrabold"] = 800] = "Extrabold";
+  ListItemFontWeights2[ListItemFontWeights2["Black"] = 900] = "Black";
+})(ListItemFontWeights || (ListItemFontWeights = {}));
 var ListItemService = class _ListItemService {
   constructor() {
     this.stateChanged = new Subject();
-    this.onClick = new Subject();
   }
   static {
     this.ɵfac = function ListItemService_Factory(__ngFactoryType__) {
@@ -1197,96 +1220,117 @@ var ListItemService = class _ListItemService {
     }]
   }], null, null);
 })();
-var ListItemTypeEnum;
-(function(ListItemTypeEnum2) {
-  ListItemTypeEnum2["Normal"] = "row";
-  ListItemTypeEnum2["Reverse"] = "row-reverse";
-})(ListItemTypeEnum || (ListItemTypeEnum = {}));
-var ListItemTextAlignEnum;
-(function(ListItemTextAlignEnum2) {
-  ListItemTextAlignEnum2["Left"] = "left";
-  ListItemTextAlignEnum2["Center"] = "center";
-  ListItemTextAlignEnum2["Right"] = "right";
-})(ListItemTextAlignEnum || (ListItemTextAlignEnum = {}));
-var ListItemItemNumberPositionEnum;
-(function(ListItemItemNumberPositionEnum2) {
-  ListItemItemNumberPositionEnum2["Top"] = "flex-start";
-  ListItemItemNumberPositionEnum2["Middle"] = "center";
-})(ListItemItemNumberPositionEnum || (ListItemItemNumberPositionEnum = {}));
+var ListItemModel = class {
+  constructor() {
+    this.name = "";
+  }
+};
+var ListItemStateModel = class {
+  constructor() {
+    this.OpenState = false;
+  }
+};
 var ListItemComponent = class _ListItemComponent {
   constructor() {
-    this._mouseover = false;
-    this.ListItemTypesEnum = ListItemTypeEnum;
-    this.ListItemItemNumberPositionEnum = ListItemItemNumberPositionEnum;
+    this.Name = input.required();
+    this._BoxShadowExternalEnabled = input.required();
+    this._BoxShadowInternalEnabled = input.required();
+    this._BorderRadius = 0;
+    this._ItemBackGroundColorNormal = input.required();
+    this._ItemBackGroundColorHover = input.required();
+    this._IconBackgroundColor = "";
+    this._ItemNumberEnabled = input.required();
+    this._ItemNumberText = input.required();
+    this._ItemNumberFontFamily = input.required();
+    this._ItemNumberFontWeight = input.required();
+    this._ItemNumberFontColor = input.required();
+    this._ItemNumberPosition = input.required();
+    this._ItemNumberMarginTop = 0;
+    this._ItemNumberMarginLeft = 0;
+    this._ItemNumberMarginRight = 0;
+    this._IconEnabled = input.required();
+    this._IconMarginLeft = 0;
+    this._IconMarginRight = 0;
+    this._TextContainerMarginLeft = 0;
+    this._TextContainerMarginRight = 0;
+    this._TextBackgroundColor = "";
+    this._TitleText = "";
+    this._TitleFontFamily = input.required();
+    this._TitleFontColor = input.required();
+    this._TitleFontWeight = input.required();
+    this._TitleEnabled = true;
+    this._SubTitleEnabled = false;
+    this._SubTitleText = "";
+    this._SubTitleFontFamily = input.required();
+    this._SubTitleFontColor = input.required();
+    this._SubTitleFontWeight = input.required();
+    this._IconOpenBackgroundColor = "";
+    this._IconOpenItemColor = input.required();
+    this._IconOpenItemEnabled = true;
+    this._WrappedBackGroundColor = "";
+    this._FontSize = input.required();
+    this.ListItePositions = ListItemPositions;
+    this.IconsEnum = IconsEnum;
+    this.ItemStateOpen = false;
     this.ListItemService = inject(ListItemService);
-    this.name = input.required();
+    this.ButtonService = inject(ButtonService);
   }
   ngOnInit() {
-    this.startListenToStateChanged();
+    this.startListenToStateChange();
+    this._ItemNumberMarginTop = 0;
+    this._ItemNumberMarginLeft = 0;
+    this._ItemNumberMarginRight = 0;
+    this._IconMarginLeft = 0;
+    this._IconMarginRight = 0;
+    this._TextContainerMarginLeft = 0;
+    if (this._ItemNumberEnabled()) {
+      this._ItemNumberMarginTop = this._ItemNumberPosition() == this.ListItePositions.Top ? this._FontSize() * 0.5 : this._FontSize() * 3.777 / 2 - this._FontSize() / 2;
+      this._ItemNumberMarginLeft = this._FontSize() * 0.5;
+      this._ItemNumberMarginRight = this._FontSize() * 0.361;
+      this._IconMarginLeft = this._FontSize() * 0.361;
+      this._IconMarginRight = this._FontSize() * 0.361;
+      this._TextContainerMarginLeft = this._FontSize() * 0.722;
+    } else {
+      if (this._IconEnabled()) {
+        this._IconMarginLeft = this._FontSize() * 1.2;
+        this._IconMarginRight = this._FontSize() * 1.2;
+        this._TextContainerMarginLeft = this._FontSize() * 0.722;
+      } else {
+        this._TextContainerMarginLeft = this._FontSize() * 2;
+      }
+    }
   }
-  onClick() {
-    this.ListItemService.onClick.next(this.name());
+  OnClick() {
+    let model = new ListItemModel();
+    let modelState = new ListItemStateModel();
+    model.name = this.Name();
+    if (this.ItemStateOpen) {
+      modelState.OpenState = false;
+    } else {
+      modelState.OpenState = true;
+    }
+    model.state = modelState;
+    this.ListItemService.stateChanged.next(model);
   }
-  startListenToStateChanged() {
-    this.ListItemService.stateChanged.subscribe((config) => {
-      if (config.Name === this.name()) {
-        this.ListItemType = config.ListItemType ?? this.ListItemType;
-        this.OpenState = config.OpenState ?? this.OpenState;
-        this.Width = config.Width ?? this.Width;
-        this.Height = config.Height ?? this.Height;
-        this.BorderRadius = config.BorderRadius ?? this.BorderRadius;
-        this.ItemNumberIconContainerWidth = config.ItemNumberIconContainerWidth ?? this.ItemNumberIconContainerWidth;
-        this.ItemNumberIconBackGroundColorNormal = config.ItemNumberIconBackGroundColorNormal ?? this.ItemNumberIconBackGroundColorNormal;
-        this.ItemNumberIconBackGroundColorHover = config.ItemNumberIconBackGroundColorHover ?? this.ItemNumberIconBackGroundColorHover;
-        this.TitlesContainerWidth = config.TitlesContainerWidth ?? this.TitlesContainerWidth;
-        this.TitlesBackGroundColorNormal = config.TitlesBackGroundColorNormal ?? this.TitlesBackGroundColorNormal;
-        this.TitlesBackGroundColorHover = config.TitlesBackGroundColorHover ?? this.TitlesBackGroundColorHover;
-        this.TitlesContainerPadding = config.TitlesContainerPadding ?? this.TitlesContainerPadding;
-        this.TriggerIconContainerWidth = config.TriggerIconContainerWidth ?? this.TriggerIconContainerWidth;
-        this.TriggerIconBackGroundColorNormal = config.TriggerIconBackGroundColorNormal ?? this.TriggerIconBackGroundColorNormal;
-        this.TriggerIconBackGroundColorHover = config.TriggerIconBackGroundColorHover ?? this.TriggerIconBackGroundColorHover;
-        this.ItemNumberEnabled = config.ItemNumberEnabled ?? this.ItemNumberEnabled;
-        this.ItemNumberText = config.ItemNumberText ?? this.ItemNumberText;
-        this.ItemNumberFontFamily = config.ItemNumberFontFamily ?? this.ItemNumberFontFamily;
-        this.ItemNumberFontWeight = config.ItemNumberFontWeight ?? this.ItemNumberFontWeight;
-        this.ItemNumberFontColorNormal = config.ItemNumberFontColorNormal ?? this.ItemNumberFontColorNormal;
-        this.ItemNumberFontColorHover = config.ItemNumberFontColorHover ?? this.ItemNumberFontColorHover;
-        this.ItemNumberFontSize = config.ItemNumberFontSize ?? this.ItemNumberFontSize;
-        this.ItemNumberPosition = config.ItemNumberPosition ?? this.ItemNumberPosition;
-        this.IconEnabled = config.IconEnabled ?? this.IconEnabled;
-        this.Icon = config.Icon ?? this.Icon;
-        this.IconFontColorNormal = config.IconFontColorNormal ?? this.IconFontColorNormal;
-        this.IconFontColorHover = config.IconFontColorHover ?? this.IconFontColorHover;
-        this.IconFontSize = config.IconFontSize ?? this.IconFontSize;
-        this.TitleEnabled = config.TitleEnabled ?? this.TitleEnabled;
-        this.TitleText = config.TitleText ?? this.TitleText;
-        this.TitleFontFamily = config.TitleFontFamily ?? this.TitleFontFamily;
-        this.TitleFontWeight = config.TitleFontWeight ?? this.TitleFontWeight;
-        this.TitleFontColorNormal = config.TitleFontColorNormal ?? this.TitleFontColorNormal;
-        this.TitleFontColorHover = config.TitleFontColorHover ?? this.TitleFontColorHover;
-        this.TitleFontSize = config.TitleFontSize ?? this.TitleFontSize;
-        this.TitleTextAlign = config.TitleTextAlign ?? this.TitleTextAlign;
-        this.SubTitleEnabled = config.SubTitleEnabled ?? this.SubTitleEnabled;
-        this.SubTitleText = config.SubTitleText ?? this.SubTitleText;
-        this.SubTitleFontFamily = config.SubTitleFontFamily ?? this.SubTitleFontFamily;
-        this.SubTitleFontWeight = config.SubTitleFontWeight ?? this.SubTitleFontWeight;
-        this.SubTitleFontColorNormal = config.SubTitleFontColorNormal ?? this.SubTitleFontColorNormal;
-        this.SubTitleFontColorHover = config.SubTitleFontColorHover ?? this.SubTitleFontColorHover;
-        this.SubTitleFontSize = config.SubTitleFontSize ?? this.SubTitleFontSize;
-        this.SubTitleTextAlign = config.SubTitleTextAlign ?? this.SubTitleTextAlign;
-        this.TriggerIconEnabled = config.TriggerIconEnabled ?? this.TriggerIconEnabled;
-        this.TriggerIconClose = config.TriggerIconClose ?? this.TriggerIconClose;
-        this.TriggerIconOpen = config.TriggerIconOpen ?? this.TriggerIconOpen;
-        this.TriggerIconFontColorNormal = config.TriggerIconFontColorNormal ?? this.TriggerIconFontColorNormal;
-        this.TriggerIconFontColorHover = config.TriggerIconFontColorHover ?? this.TriggerIconFontColorHover;
-        this.TriggerIconFontSize = config.TriggerIconFontSize ?? this.TriggerIconFontSize;
-        this.TriggerIconRotationEnabled = config.TriggerIconRotationEnabled ?? this.TriggerIconRotationEnabled;
-        this.ContainerWrappedBackGroundColor = config.ContainerWrappedBackGroundColor ?? this.ContainerWrappedBackGroundColor;
+  startListenToStateChange() {
+    this.ListItemService.stateChanged.subscribe((model) => {
+      if (this.Name() == model.name) {
+        this._TitleEnabled = model.state.TitleEnabled != void 0 ? model.state.TitleEnabled : this._TitleEnabled;
+        this._TitleText = model.state.TitleText != void 0 ? model.state.TitleText : this._TitleText;
+        this._SubTitleEnabled = model.state.SubTitleEnabled != void 0 ? model.state.SubTitleEnabled : this._SubTitleEnabled;
+        this._SubTitleText = model.state.SubTitleText != void 0 ? model.state.SubTitleText : this._SubTitleText;
+        this._IconOpenItemEnabled = model.state.IconOpenItemEnabled != void 0 ? model.state.IconOpenItemEnabled : this._IconOpenItemEnabled;
+        this._Width = model.state.Width != void 0 ? model.state.Width : this._Width;
+        this._Icon = model.state.Icon != void 0 ? model.state.Icon : this._Icon;
+        this._IconColor = model.state.IconColor != void 0 ? model.state.IconColor : this._IconColor;
+        this._IconBackgroundColor = model.state.IconBackGroundColor != void 0 ? model.state.IconBackGroundColor : this._IconBackgroundColor;
+        this._TextBackgroundColor = model.state.TextBackGroundColor != void 0 ? model.state.TextBackGroundColor : this._TextBackgroundColor;
+        this._IconOpenBackgroundColor = model.state.IconOpenBackGroundColor != void 0 ? model.state.IconOpenBackGroundColor : this._IconOpenBackgroundColor;
+        this._WrappedBackGroundColor = model.state.WrappedBackGroundColor != void 0 ? model.state.WrappedBackGroundColor : this._WrappedBackGroundColor;
+        this._BorderRadius = model.state.BorderRadius != void 0 ? model.state.BorderRadius : this._BorderRadius;
+        this.ItemStateOpen = model.state.OpenState != void 0 ? model.state.OpenState : this.ItemStateOpen;
       }
     });
-  }
-  setMouseOver(state) {
-    this._mouseover = state;
   }
   static {
     this.ɵfac = function ListItemComponent_Factory(__ngFactoryType__) {
@@ -1298,22 +1342,37 @@ var ListItemComponent = class _ListItemComponent {
       type: _ListItemComponent,
       selectors: [["app-list-item"]],
       inputs: {
-        name: [1, "name"]
+        Name: [1, "Name"],
+        _BoxShadowExternalEnabled: [1, "_BoxShadowExternalEnabled"],
+        _BoxShadowInternalEnabled: [1, "_BoxShadowInternalEnabled"],
+        _ItemBackGroundColorNormal: [1, "_ItemBackGroundColorNormal"],
+        _ItemBackGroundColorHover: [1, "_ItemBackGroundColorHover"],
+        _ItemNumberEnabled: [1, "_ItemNumberEnabled"],
+        _ItemNumberText: [1, "_ItemNumberText"],
+        _ItemNumberFontFamily: [1, "_ItemNumberFontFamily"],
+        _ItemNumberFontWeight: [1, "_ItemNumberFontWeight"],
+        _ItemNumberFontColor: [1, "_ItemNumberFontColor"],
+        _ItemNumberPosition: [1, "_ItemNumberPosition"],
+        _IconEnabled: [1, "_IconEnabled"],
+        _TitleFontFamily: [1, "_TitleFontFamily"],
+        _TitleFontColor: [1, "_TitleFontColor"],
+        _TitleFontWeight: [1, "_TitleFontWeight"],
+        _SubTitleFontFamily: [1, "_SubTitleFontFamily"],
+        _SubTitleFontColor: [1, "_SubTitleFontColor"],
+        _SubTitleFontWeight: [1, "_SubTitleFontWeight"],
+        _IconOpenItemColor: [1, "_IconOpenItemColor"],
+        _FontSize: [1, "_FontSize"]
       },
       ngContentSelectors: _c1,
       decls: 15,
-      vars: 99,
-      consts: [[1, "wrapper"], [1, "container", 3, "mouseover", "mouseout", "click"], [1, "iconContainer"], [1, "ItemNumber"], [1, "TextContainer"], [1, "title"], [1, "sub-title"], [1, "ItemOpenIconContainer"], [1, "containerWrapped"]],
+      vars: 97,
+      consts: [[1, "wrapper"], [1, "container", 3, "click"], [1, "iconContainer"], [1, "ItemNumber"], [1, "TextContainer"], [1, "title"], [1, "sub-title"], [1, "ItemOpenIconContainer"], [1, "containerWrapped"]],
       template: function ListItemComponent_Template(rf, ctx) {
         if (rf & 1) {
           ɵɵprojectionDef();
           ɵɵelementStart(0, "div", 0)(1, "div", 1);
-          ɵɵlistener("mouseover", function ListItemComponent_Template_div_mouseover_1_listener() {
-            return ctx.setMouseOver(true);
-          })("mouseout", function ListItemComponent_Template_div_mouseout_1_listener() {
-            return ctx.setMouseOver(false);
-          })("click", function ListItemComponent_Template_div_click_1_listener() {
-            return ctx.onClick();
+          ɵɵlistener("click", function ListItemComponent_Template_div_click_1_listener() {
+            return ctx.OnClick();
           });
           ɵɵelementStart(2, "div", 2)(3, "p", 3);
           ɵɵtext(4);
@@ -1334,39 +1393,41 @@ var ListItemComponent = class _ListItemComponent {
           ɵɵelementEnd()();
         }
         if (rf & 2) {
-          ɵɵstyleProp("width", ctx.Width + "px")("border-radius", ctx.BorderRadius + "px")("box-shadow", "rgba(0, 0, 0, 0.24) 0px 3px 8px");
+          ɵɵstyleProp("width", ctx._Width + "px")("border-radius", ctx._BorderRadius + "px");
+          ɵɵclassProp("box-shadow", ctx._BoxShadowExternalEnabled());
           ɵɵadvance();
-          ɵɵstyleProp("height", ctx.Height + "px")("border-radius", ctx.BorderRadius + "px")("flex-direction", ctx.ListItemType == null ? null : ctx.ListItemType.toString());
+          ɵɵstyleProp("border-radius", ctx._BorderRadius + "px");
+          ɵɵclassProp("box-shadow", ctx._BoxShadowInternalEnabled());
           ɵɵadvance();
-          ɵɵstyleProp("width", ctx.ItemNumberIconContainerWidth + "px")("background-color", ctx._mouseover ? ctx.ItemNumberIconBackGroundColorHover : ctx.ItemNumberIconBackGroundColorNormal);
+          ɵɵstyleProp("background-color", ctx._IconBackgroundColor)("max-width", ctx._Width + "px");
           ɵɵadvance();
-          ɵɵstyleProp("display", ctx.ItemNumberEnabled ? "" : "none")("font-family", ctx.ItemNumberFontFamily)("font-weight", ctx.ItemNumberFontWeight)("color", ctx._mouseover ? ctx.ItemNumberFontColorHover : ctx.ItemNumberFontColorNormal)("font-size", ctx.ItemNumberFontSize + "px")("align-self", ctx.ItemNumberPosition == null ? null : ctx.ItemNumberPosition.toString())("margin-top", ctx.ItemNumberPosition == ctx.ListItemItemNumberPositionEnum.Top ? "5px" : "");
+          ɵɵstyleProp("display", ctx._ItemNumberEnabled() ? "" : "none")("font-family", ctx._ItemNumberFontFamily())("font-weight", ctx._ItemNumberFontWeight())("color", ctx._ItemNumberFontColor())("font-size", ctx._ItemNumberPosition() == ctx.ListItePositions.Top ? ctx._FontSize() * 0.833 + "px" : ctx._FontSize() + "px")("margin-top", ctx._ItemNumberMarginTop + "px")("margin-left", ctx._ItemNumberMarginLeft + "px")("margin-right", ctx._ItemNumberMarginRight + "px");
           ɵɵadvance();
-          ɵɵtextInterpolate1(" ", ctx.ItemNumberText, " ");
+          ɵɵtextInterpolate1(" ", ctx._ItemNumberText(), " ");
           ɵɵadvance();
-          ɵɵclassMap(ctx.Icon);
-          ɵɵstyleProp("display", ctx.IconEnabled ? "" : "none")("color", ctx._mouseover ? ctx.IconFontColorHover : ctx.IconFontColorNormal)("font-size", ctx.IconFontSize + "px")("margin-left", ctx.ItemNumberEnabled ? "auto" : "")("margin-right", ctx.ItemNumberEnabled ? "10px" : "");
+          ɵɵclassMap(ctx._Icon);
+          ɵɵstyleProp("display", ctx._IconEnabled() ? "" : "none")("color", ctx._IconColor)("font-size", ctx._FontSize() * 1.111 + "px")("margin-left", ctx._IconMarginLeft + "px")("margin-right", ctx._IconMarginRight + "px");
           ɵɵadvance();
-          ɵɵstyleProp("width", ctx.TitlesContainerWidth + "px")("background-color", ctx._mouseover ? ctx.TitlesBackGroundColorHover : ctx.TitlesBackGroundColorNormal)("padding", `0px ${ctx.TitlesContainerPadding}px`);
+          ɵɵstyleProp("padding-top", ctx._FontSize() + "px")("padding-bottom", ctx._FontSize() + "px")("padding-left", ctx._FontSize() + "px")("background-color", ctx._TextBackgroundColor);
           ɵɵadvance();
-          ɵɵstyleProp("display", ctx.TitleEnabled ? "" : "none")("font-family", ctx.TitleFontFamily)("font-weight", ctx.TitleFontWeight)("color", ctx._mouseover ? ctx.TitleFontColorHover : ctx.TitleFontColorNormal)("font-size", ctx.TitleFontSize + "px")("text-align", ctx.TitleTextAlign == null ? null : ctx.TitleTextAlign.toString());
+          ɵɵstyleProp("font-family", ctx._TitleFontFamily())("color", ctx._TitleFontColor())("font-size", ctx._FontSize() + "px")("font-weight", ctx._TitleFontWeight())("display", ctx._TitleEnabled ? "" : "none");
           ɵɵadvance();
-          ɵɵtextInterpolate1(" ", ctx.TitleText, " ");
+          ɵɵtextInterpolate1(" ", ctx._TitleText, " ");
           ɵɵadvance();
-          ɵɵstyleProp("display", ctx.SubTitleEnabled ? "" : "none")("font-family", ctx.SubTitleFontFamily)("font-weight", ctx.SubTitleFontWeight)("color", ctx._mouseover ? ctx.SubTitleFontColorHover : ctx.SubTitleFontColorNormal)("font-size", ctx.SubTitleFontSize + "px")("text-align", ctx.SubTitleTextAlign == null ? null : ctx.SubTitleTextAlign.toString());
+          ɵɵstyleProp("display", ctx._SubTitleEnabled ? "" : "none")("font-family", ctx._SubTitleFontFamily())("color", ctx._SubTitleFontColor())("font-size", ctx._FontSize() * 0.833 + "px")("font-weight", ctx._SubTitleFontWeight());
           ɵɵadvance();
-          ɵɵtextInterpolate1(" ", ctx.SubTitleText, " ");
+          ɵɵtextInterpolate1(" ", ctx._SubTitleText, " ");
           ɵɵadvance();
-          ɵɵstyleProp("background-color", ctx._mouseover ? ctx.TriggerIconBackGroundColorHover : ctx.TriggerIconBackGroundColorNormal)("width", ctx.TriggerIconContainerWidth + "px");
+          ɵɵstyleProp("background-color", ctx._IconOpenBackgroundColor);
           ɵɵadvance();
-          ɵɵclassMap(ctx.OpenState ? ctx.TriggerIconOpen : ctx.TriggerIconClose);
-          ɵɵstyleProp("display", ctx.TriggerIconEnabled ? "" : "none")("color", ctx._mouseover ? ctx.TriggerIconFontColorHover : ctx.TriggerIconFontColorNormal)("font-size", ctx.TriggerIconFontSize + "px")("transform", ctx.TriggerIconRotationEnabled == true ? ctx.ListItemType == ctx.ListItemTypesEnum.Normal ? ctx.OpenState ? "" : "rotate(90deg)" : ctx.OpenState ? "" : "rotate(-90deg)" : "");
-          ɵɵclassProp("ItemOpenState", ctx.OpenState)("ItemCloseState", !ctx.OpenState);
+          ɵɵclassMapInterpolate1("", ctx.ItemStateOpen ? ctx.IconsEnum.ItemOpenned : ctx.IconsEnum.ItemClosed, " ItemOpenState ItemOpenIcon");
+          ɵɵstyleProp("display", ctx._IconOpenItemEnabled ? "" : "none")("margin-left", ctx._IconMarginLeft + "px")("margin-right", ctx._IconMarginRight + "px")("color", ctx._IconOpenItemColor())("font-size", ctx._FontSize() * 1.666 + "px");
+          ɵɵclassProp("ItemOpenState", ctx.ItemStateOpen)("ItemCloseState", !ctx.ItemStateOpen);
           ɵɵadvance();
-          ɵɵstyleProp("display", ctx.OpenState ? "" : "none")("background-color", ctx.ContainerWrappedBackGroundColor);
+          ɵɵstyleProp("background-color", ctx._WrappedBackGroundColor)("display", ctx.ItemStateOpen ? "" : "none");
         }
       },
-      styles: ["[_nghost-%COMP%]{display:inline-block;vertical-align:top}.wrapper[_ngcontent-%COMP%]{overflow:hidden}.wrapper[_ngcontent-%COMP%] > .container[_ngcontent-%COMP%]{display:flex;cursor:pointer}.wrapper[_ngcontent-%COMP%] > .container[_ngcontent-%COMP%] > .iconContainer[_ngcontent-%COMP%]{display:flex;flex-direction:row;align-items:center;justify-content:center;box-sizing:border-box}.wrapper[_ngcontent-%COMP%] > .container[_ngcontent-%COMP%] > .iconContainer[_ngcontent-%COMP%] > p[_ngcontent-%COMP%]{margin:0 auto 0 5px}.wrapper[_ngcontent-%COMP%] > .container[_ngcontent-%COMP%] > .iconContainer[_ngcontent-%COMP%] > i[_ngcontent-%COMP%]{line-height:0px}.wrapper[_ngcontent-%COMP%] > .container[_ngcontent-%COMP%] > .TextContainer[_ngcontent-%COMP%]{display:flex;flex-direction:column;align-items:start;justify-content:center;width:100%;box-sizing:border-box}.wrapper[_ngcontent-%COMP%] > .container[_ngcontent-%COMP%] > .TextContainer[_ngcontent-%COMP%] > h1[_ngcontent-%COMP%], h2[_ngcontent-%COMP%]{margin:0;width:100%}.wrapper[_ngcontent-%COMP%] > .container[_ngcontent-%COMP%] > .ItemOpenIconContainer[_ngcontent-%COMP%]{display:flex;flex-direction:column;align-items:center;justify-content:center}.wrapper[_ngcontent-%COMP%] > .container[_ngcontent-%COMP%] > .ItemOpenIconContainer[_ngcontent-%COMP%] > i[_ngcontent-%COMP%]{transition:.3s}.wrapper[_ngcontent-%COMP%] > .containerWrapped[_ngcontent-%COMP%]{padding:0}"]
+      styles: ["[_nghost-%COMP%]{display:inline-block;vertical-align:top}.wrapper[_ngcontent-%COMP%]{overflow:hidden}.box-shadow[_ngcontent-%COMP%]{box-shadow:#0000003d 0 3px 8px}.wrapper[_ngcontent-%COMP%] > .container[_ngcontent-%COMP%]{display:flex;cursor:pointer}.wrapper[_ngcontent-%COMP%] > .container[_ngcontent-%COMP%] > .iconContainer[_ngcontent-%COMP%]{display:flex;flex-direction:column;align-items:center;justify-content:center}.wrapper[_ngcontent-%COMP%] > .container[_ngcontent-%COMP%] > .iconContainer[_ngcontent-%COMP%] > p[_ngcontent-%COMP%]{margin:0}.wrapper[_ngcontent-%COMP%] > .container[_ngcontent-%COMP%] > .iconContainer[_ngcontent-%COMP%] > i[_ngcontent-%COMP%]{line-height:0px;display:flex;align-items:center;justify-content:center}.wrapper[_ngcontent-%COMP%] > .container[_ngcontent-%COMP%] > .TextContainer[_ngcontent-%COMP%]{display:flex;flex-direction:column;align-items:start;justify-content:center;width:100%}.wrapper[_ngcontent-%COMP%] > .container[_ngcontent-%COMP%] > .TextContainer[_ngcontent-%COMP%] > h1[_ngcontent-%COMP%], h2[_ngcontent-%COMP%]{margin:0;text-align:center}.wrapper[_ngcontent-%COMP%] > .container[_ngcontent-%COMP%] > .ItemOpenIconContainer[_ngcontent-%COMP%]{display:flex;flex-direction:column;align-items:center;justify-content:center}.wrapper[_ngcontent-%COMP%] > .container[_ngcontent-%COMP%] > .ItemOpenIconContainer[_ngcontent-%COMP%] > .ItemOpenState[_ngcontent-%COMP%]{transition:.3s}.wrapper[_ngcontent-%COMP%] > .container[_ngcontent-%COMP%] > .ItemOpenIconContainer[_ngcontent-%COMP%] > .ItemCloseState[_ngcontent-%COMP%]{transform:rotate(90deg);transition:.3s}.wrapper[_ngcontent-%COMP%] > .containerWrapped[_ngcontent-%COMP%]{padding:0}"]
     });
   }
 };
@@ -1377,105 +1438,93 @@ var ListItemComponent = class _ListItemComponent {
       selector: "app-list-item",
       standalone: true,
       imports: [],
-      template: `<div class="wrapper"\r
-[style.width]="Width+'px'"\r
-[style.border-radius]="BorderRadius+'px'"\r
-[style.box-shadow]="'rgba(0, 0, 0, 0.24) 0px 3px 8px'"\r
+      template: `\r
+<div class="wrapper"\r
+[style.width]="_Width+'px'"\r
+[class.box-shadow]="_BoxShadowExternalEnabled()"\r
+[style.border-radius]="_BorderRadius+'px'"\r
 >\r
     <div class="container"\r
-    [style.height]="Height+'px'"\r
-    [style.border-radius]="BorderRadius+'px'"\r
-    [style.flex-direction]="ListItemType?.toString()"\r
-    (mouseover)="setMouseOver(true)"\r
-    (mouseout)="setMouseOver(false)"\r
-    (click)="onClick()"\r
+    (click)="OnClick()"\r
+    [class.box-shadow]="_BoxShadowInternalEnabled()"\r
+    [style.border-radius]="_BorderRadius+'px'"\r
     >\r
 \r
         <div class="iconContainer"\r
-        [style.width]="ItemNumberIconContainerWidth+'px'"\r
-        [style.background-color]="_mouseover ? ItemNumberIconBackGroundColorHover : ItemNumberIconBackGroundColorNormal"\r
+        [style.background-color]="_IconBackgroundColor"\r
+        [style.max-width]="_Width+'px'"\r
         >\r
             <p class="ItemNumber"\r
-            [style.display]="ItemNumberEnabled ? '' : 'none'"\r
-            [style.font-family]="ItemNumberFontFamily"\r
-            [style.font-weight]="ItemNumberFontWeight"\r
-            [style.color]="_mouseover ? ItemNumberFontColorHover : ItemNumberFontColorNormal"\r
-            [style.font-size]="ItemNumberFontSize + 'px'  "\r
-            [style.align-self]="ItemNumberPosition?.toString()"\r
-            [style.margin-top]="ItemNumberPosition == ListItemItemNumberPositionEnum.Top ? '5px': '' "\r
+            [style.display]="_ItemNumberEnabled() ? '' : 'none'"\r
+            [style.font-family]="_ItemNumberFontFamily()"\r
+            [style.font-weight]="_ItemNumberFontWeight()"\r
+            [style.color]="_ItemNumberFontColor()"\r
+            [style.font-size]="_ItemNumberPosition() == ListItePositions.Top ? (_FontSize()*0.833)+'px' : (_FontSize())+'px'  "\r
+            [style.margin-top]="_ItemNumberMarginTop +'px'"\r
+            [style.margin-left]="_ItemNumberMarginLeft+'px'"\r
+            [style.margin-right]="_ItemNumberMarginRight+'px'"\r
             >\r
-                {{ItemNumberText}}\r
+                {{_ItemNumberText()}}\r
             </p>\r
 \r
-            <i class="{{Icon}}"\r
-            [style.display]="IconEnabled ? '' : 'none'"\r
-            [style.color]="_mouseover ? IconFontColorHover : IconFontColorNormal"\r
-            [style.font-size]="IconFontSize +'px'"\r
-            [style.margin-left]="ItemNumberEnabled ? 'auto' : ''"\r
-            [style.margin-right]="ItemNumberEnabled ? '10px' : ''"\r
+            <i class="{{_Icon}}"\r
+            [style.display]="_IconEnabled() ? '' : 'none'"\r
+            [style.color]="_IconColor"\r
+            [style.font-size]="(_FontSize()*1.111)+'px'"\r
+            [style.margin-left]="_IconMarginLeft+'px'"\r
+            [style.margin-right]="_IconMarginRight+'px'"\r
             ></i>\r
         </div>\r
 \r
 \r
         <div class="TextContainer"\r
-        [style.width]="TitlesContainerWidth+'px'"\r
-        [style.background-color]="_mouseover ? TitlesBackGroundColorHover : TitlesBackGroundColorNormal"\r
-        [style.padding]="\`0px \${TitlesContainerPadding}px\`"\r
+        [style.padding-top]="_FontSize()+'px'"\r
+        [style.padding-bottom]="_FontSize()+'px'"\r
+        [style.padding-left]="_FontSize()+'px'"\r
+        [style.background-color]="_TextBackgroundColor"\r
         >\r
 \r
             <h1 class="title"\r
-            [style.display]="TitleEnabled ? '' : 'none'"\r
-            [style.font-family]="TitleFontFamily"\r
-            [style.font-weight]="TitleFontWeight"\r
-            [style.color]="_mouseover ? TitleFontColorHover : TitleFontColorNormal"\r
-            [style.font-size]="TitleFontSize +'px'"\r
-            [style.text-align]="TitleTextAlign?.toString()"\r
+            [style.font-family]="_TitleFontFamily()"\r
+            [style.color]="_TitleFontColor()"\r
+            [style.font-size]="_FontSize()+'px'"\r
+            [style.font-weight]="_TitleFontWeight()"\r
+            [style.display]="_TitleEnabled ? '' : 'none'"\r
             >\r
-                {{TitleText}}\r
+                {{_TitleText}}\r
             </h1>\r
 \r
             <h2 class="sub-title"\r
-            [style.display]="SubTitleEnabled ? '' : 'none'"\r
-            [style.font-family]="SubTitleFontFamily"\r
-            [style.font-weight]="SubTitleFontWeight"\r
-            [style.color]="_mouseover ? SubTitleFontColorHover : SubTitleFontColorNormal"\r
-            [style.font-size]="SubTitleFontSize +'px'"\r
-            [style.text-align]="SubTitleTextAlign?.toString()"\r
+            [style.display]="_SubTitleEnabled ? '' : 'none'"\r
+            [style.font-family]="_SubTitleFontFamily()"\r
+            [style.color]="_SubTitleFontColor()"\r
+            [style.font-size]="(_FontSize()*0.833)+'px'"\r
+            [style.font-weight]="_SubTitleFontWeight()"\r
             >\r
-                {{SubTitleText}}\r
+                {{_SubTitleText}}\r
             </h2>\r
 \r
         </div>\r
 \r
         <div class="ItemOpenIconContainer"\r
-        [style.background-color]="_mouseover ? TriggerIconBackGroundColorHover : TriggerIconBackGroundColorNormal"\r
-        [style.width]="TriggerIconContainerWidth+'px'"\r
+        [style.background-color]="_IconOpenBackgroundColor"\r
         >\r
-            <i class="{{OpenState? TriggerIconOpen : TriggerIconClose}}"\r
-            [style.display]="TriggerIconEnabled ? '' : 'none'"\r
-            [class.ItemOpenState]="OpenState"\r
-            [class.ItemCloseState]="!OpenState"\r
-            [style.color]="_mouseover ? TriggerIconFontColorHover : TriggerIconFontColorNormal"\r
-            [style.font-size]="TriggerIconFontSize +'px'"\r
-            [style.transform]="\r
-            TriggerIconRotationEnabled == true \r
-            ? ListItemType == ListItemTypesEnum.Normal\r
-                ? OpenState \r
-                    ? '' \r
-                    : 'rotate(90deg)' \r
-                : OpenState \r
-                    ? '' \r
-                    : 'rotate(-90deg)'\r
-            : ''\r
-             "\r
+            <i class="{{ItemStateOpen? IconsEnum.ItemOpenned : IconsEnum.ItemClosed}} ItemOpenState ItemOpenIcon"\r
+            [style.display]="_IconOpenItemEnabled ? '' : 'none'"\r
+            [style.margin-left]="_IconMarginLeft+'px'"\r
+            [style.margin-right]="_IconMarginRight+'px'"\r
+            [class.ItemOpenState]="ItemStateOpen"\r
+            [class.ItemCloseState]="!ItemStateOpen"\r
+            [style.color]="_IconOpenItemColor()"\r
+            [style.font-size]="(_FontSize()*1.666)+'px'"\r
             ></i>\r
         </div>\r
 \r
 \r
     </div>\r
     <div class="containerWrapped"\r
-    [style.display]="OpenState ? '' : 'none'"\r
-    [style.background-color]="ContainerWrappedBackGroundColor"\r
+    [style.background-color]="_WrappedBackGroundColor"\r
+    [style.display]="ItemStateOpen ? '' : 'none'"\r
     >\r
         <ng-content/>\r
     </div>\r
@@ -1484,67 +1533,10 @@ var ListItemComponent = class _ListItemComponent {
 </div>\r
 \r
 `,
-      styles: [":host{display:inline-block;vertical-align:top}.wrapper{overflow:hidden}.wrapper>.container{display:flex;cursor:pointer}.wrapper>.container>.iconContainer{display:flex;flex-direction:row;align-items:center;justify-content:center;box-sizing:border-box}.wrapper>.container>.iconContainer>p{margin:0 auto 0 5px}.wrapper>.container>.iconContainer>i{line-height:0px}.wrapper>.container>.TextContainer{display:flex;flex-direction:column;align-items:start;justify-content:center;width:100%;box-sizing:border-box}.wrapper>.container>.TextContainer>h1,h2{margin:0;width:100%}.wrapper>.container>.ItemOpenIconContainer{display:flex;flex-direction:column;align-items:center;justify-content:center}.wrapper>.container>.ItemOpenIconContainer>i{transition:.3s}.wrapper>.containerWrapped{padding:0}\n"]
+      styles: [":host{display:inline-block;vertical-align:top}.wrapper{overflow:hidden}.box-shadow{box-shadow:#0000003d 0 3px 8px}.wrapper>.container{display:flex;cursor:pointer}.wrapper>.container>.iconContainer{display:flex;flex-direction:column;align-items:center;justify-content:center}.wrapper>.container>.iconContainer>p{margin:0}.wrapper>.container>.iconContainer>i{line-height:0px;display:flex;align-items:center;justify-content:center}.wrapper>.container>.TextContainer{display:flex;flex-direction:column;align-items:start;justify-content:center;width:100%}.wrapper>.container>.TextContainer>h1,h2{margin:0;text-align:center}.wrapper>.container>.ItemOpenIconContainer{display:flex;flex-direction:column;align-items:center;justify-content:center}.wrapper>.container>.ItemOpenIconContainer>.ItemOpenState{transition:.3s}.wrapper>.container>.ItemOpenIconContainer>.ItemCloseState{transform:rotate(90deg);transition:.3s}.wrapper>.containerWrapped{padding:0}\n"]
     }]
   }], null, null);
 })();
-var ListItemConfigModel = class {
-  constructor(params) {
-    this.Name = params.Name;
-    this.ListItemType = params.ListItemType;
-    this.OpenState = params.OpenState;
-    this.Width = params.Width;
-    this.Height = params.Height;
-    this.BorderRadius = params.BorderRadius;
-    this.ItemNumberIconContainerWidth = params.ItemNumberIconContainerWidth;
-    this.ItemNumberIconBackGroundColorNormal = params.ItemNumberIconBackGroundColorNormal;
-    this.ItemNumberIconBackGroundColorHover = params.ItemNumberIconBackGroundColorHover;
-    this.TitlesContainerWidth = params.TitlesContainerWidth;
-    this.TitlesBackGroundColorNormal = params.TitlesBackGroundColorNormal;
-    this.TitlesBackGroundColorHover = params.TitlesBackGroundColorHover;
-    this.TitlesContainerPadding = params.TitlesContainerPadding;
-    this.TriggerIconContainerWidth = params.TriggerIconContainerWidth;
-    this.TriggerIconBackGroundColorNormal = params.TriggerIconBackGroundColorNormal;
-    this.TriggerIconBackGroundColorHover = params.TriggerIconBackGroundColorHover;
-    this.ItemNumberEnabled = params.ItemNumberEnabled;
-    this.ItemNumberText = params.ItemNumberText;
-    this.ItemNumberFontFamily = params.ItemNumberFontFamily;
-    this.ItemNumberFontWeight = params.ItemNumberFontWeight;
-    this.ItemNumberFontColorNormal = params.ItemNumberFontColorNormal;
-    this.ItemNumberFontColorHover = params.ItemNumberFontColorHover;
-    this.ItemNumberFontSize = params.ItemNumberFontSize;
-    this.ItemNumberPosition = params.ItemNumberPosition;
-    this.IconEnabled = params.IconEnabled;
-    this.Icon = params.Icon;
-    this.IconFontColorNormal = params.IconFontColorNormal;
-    this.IconFontColorHover = params.IconFontColorHover;
-    this.IconFontSize = params.IconFontSize;
-    this.TitleEnabled = params.TitleEnabled;
-    this.TitleText = params.TitleText;
-    this.TitleFontFamily = params.TitleFontFamily;
-    this.TitleFontWeight = params.TitleFontWeight;
-    this.TitleFontColorNormal = params.TitleFontColorNormal;
-    this.TitleFontColorHover = params.TitleFontColorHover;
-    this.TitleFontSize = params.TitleFontSize;
-    this.TitleTextAlign = params.TitleTextAlign;
-    this.SubTitleEnabled = params.SubTitleEnabled;
-    this.SubTitleText = params.SubTitleText;
-    this.SubTitleFontFamily = params.SubTitleFontFamily;
-    this.SubTitleFontWeight = params.SubTitleFontWeight;
-    this.SubTitleFontColorNormal = params.SubTitleFontColorNormal;
-    this.SubTitleFontColorHover = params.SubTitleFontColorHover;
-    this.SubTitleFontSize = params.SubTitleFontSize;
-    this.SubTitleTextAlign = params.SubTitleTextAlign;
-    this.TriggerIconEnabled = params.TriggerIconEnabled;
-    this.TriggerIconClose = params.TriggerIconClose;
-    this.TriggerIconOpen = params.TriggerIconOpen;
-    this.TriggerIconFontColorNormal = params.TriggerIconFontColorNormal;
-    this.TriggerIconFontColorHover = params.TriggerIconFontColorHover;
-    this.TriggerIconFontSize = params.TriggerIconFontSize;
-    this.TriggerIconRotationEnabled = params.TriggerIconRotationEnabled;
-    this.ContainerWrappedBackGroundColor = params.ContainerWrappedBackGroundColor;
-  }
-};
 var LabelModel = class {
   constructor() {
     this.name = "";
@@ -2134,18 +2126,6 @@ var ModalModel = class {
     this.ModalMessage = params.ModalMessage;
   }
 };
-var FontWeights;
-(function(FontWeights2) {
-  FontWeights2[FontWeights2["UltraExtraLight"] = 100] = "UltraExtraLight";
-  FontWeights2[FontWeights2["ExtraLight"] = 200] = "ExtraLight";
-  FontWeights2[FontWeights2["Light"] = 300] = "Light";
-  FontWeights2[FontWeights2["Regular"] = 400] = "Regular";
-  FontWeights2[FontWeights2["Medium"] = 500] = "Medium";
-  FontWeights2[FontWeights2["SemiBold"] = 600] = "SemiBold";
-  FontWeights2[FontWeights2["Bold"] = 700] = "Bold";
-  FontWeights2[FontWeights2["ExtraBold"] = 800] = "ExtraBold";
-  FontWeights2[FontWeights2["UltraExtraBold"] = 900] = "UltraExtraBold";
-})(FontWeights || (FontWeights = {}));
 var ModalComponent = class _ModalComponent {
   constructor() {
     this.ModalService = inject(ModalService);
@@ -2166,7 +2146,7 @@ var ModalComponent = class _ModalComponent {
     this._ButtonService = inject(ButtonService);
     this.ButtonTypes = ButtonTypeEnum;
     this.ButtonIconPositions = ButtonIconPositionEnum;
-    this.FontWeights = FontWeights;
+    this.ButtonFontWeights = ButtonFontWeights;
     this.IconsEnum = IconsEnum;
   }
   ngOnInit() {
@@ -2290,10 +2270,10 @@ export {
   AlertTypesEnum,
   ButtonComponent,
   ButtonConfigModel,
+  ButtonFontWeights,
   ButtonIconPositionEnum,
   ButtonService,
   ButtonTypeEnum,
-  FontWeights,
   FormFielTxtModel,
   FormFieldComboModel,
   FormFieldComponent,
@@ -2310,11 +2290,11 @@ export {
   LabelModel,
   LabelService,
   ListItemComponent,
-  ListItemConfigModel,
-  ListItemItemNumberPositionEnum,
+  ListItemFontWeights,
+  ListItemModel,
+  ListItemPositions,
   ListItemService,
-  ListItemTextAlignEnum,
-  ListItemTypeEnum,
+  ListItemStateModel,
   ModalComponent,
   ModalModel,
   ModalService,

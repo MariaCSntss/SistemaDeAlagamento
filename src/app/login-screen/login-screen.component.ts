@@ -1,4 +1,4 @@
-import { Component,HostListener,inject } from '@angular/core';
+import { Component,HostListener,inject, OnDestroy } from '@angular/core';
 import * as lib from 'lightning-tec-br-angular-components'
 import { HttpHeaders,HttpClient, HttpParams } from '@angular/common/http';
 import {AlertTypesEnum } from '../alert/alert.enum';
@@ -10,6 +10,7 @@ import { UsuarioModel } from '../app.model';
 import { WINDOW } from '../app.service';
 import { ConfigButtonsLogin } from './configButton';
 import { AlertComponent } from "../alert/alert.component";
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-login-screen',
@@ -17,8 +18,14 @@ import { AlertComponent } from "../alert/alert.component";
   templateUrl: './login-screen.component.html',
   styleUrl: './login-screen.component.css'
 })
-export class LoginScreenComponent {
+export class LoginScreenComponent implements OnDestroy {
   constructor(private router : Router){}
+
+   destroy = new Subject<void>();
+
+  ngOnDestroy(): void {
+    this.destroy.next();
+  }
 
   ngOnInit(): void {
 
@@ -83,7 +90,7 @@ export class LoginScreenComponent {
 
   
   startListenToButton() {
-    this._ButtonService.click.subscribe((Button)=>{
+    this._ButtonService.click.pipe(takeUntil(this.destroy)).subscribe((Button)=>{
      switch (Button){
        case ('LoginEntrar'):
          if(!this.emailOuSenhaVazios()){
@@ -99,10 +106,9 @@ export class LoginScreenComponent {
          break;
 
        case ('Registrar'):
-          if(this.AppService.AppIsOnline){
-            this.AppService.setButtonLaodingState('Registrar',false);
+            this.AppService.setButtonLaodingState('Registrar',true);
             this.router.navigate(['/create-account']);
-          }
+          
         break;
      
      }
@@ -152,20 +158,26 @@ const httpOptions = {
 this.http
   .post<any>(`https://${this.AppService.apiDomain}/Usuarios/post/login`, body, httpOptions)
 
-  .subscribe({
-    next: (json: any) => {
-      this.AppService.setButtonLaodingState('LoginEntrar', false);
+.subscribe({
+next: (json: any) => {
+  this.AppService.setButtonLaodingState('LoginEntrar', false);
 
-      // mapeamento completo
-      this.AppService.usuarioAutenticado.autenticado   = true;
-      this.AppService.usuarioAutenticado.usuarioID    = json.data.usuarioID;
-      this.AppService.usuarioAutenticado.nomeCompleto  = json.data.nomeCompleto;
-      this.AppService.usuarioAutenticado.email         = json.data.email;
-      this.AppService.usuarioAutenticado.celular       = json.data.celular;
-      this.AppService.usuarioAutenticado.token         = json.data.token;
-     
-      this.router.navigate(['/main']);
-    },
+  if (!json || !json.data) {
+    this.AppService.MostrarAlerta('Erro interno: resposta inesperada do servidor.', AlertTypesEnum.Not_OK);
+    return;
+  }
+
+  this.AppService.usuarioAutenticado.autenticado   = true;
+  this.AppService.usuarioAutenticado.usuarioID    = json.data.usuarioID;
+  this.AppService.usuarioAutenticado.nomeCompleto = json.data.nomeCompleto;
+  this.AppService.usuarioAutenticado.email        = json.data.email;
+  this.AppService.usuarioAutenticado.celular      = json.data.celular;
+  this.AppService.usuarioAutenticado.token        = json.data.token;
+
+  this.router.navigate(['/main']);
+},
+
+
     error: (err) => {
       this.AppService.MostrarAlerta(err.error.message, AlertTypesEnum.Not_OK);
       this._ButtonService.stateChanged.next(new lib.ButtonConfigModel({

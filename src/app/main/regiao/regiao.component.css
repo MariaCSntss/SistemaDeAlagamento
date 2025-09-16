@@ -1,0 +1,65 @@
+h1,h2,h3,p,a{
+    font-family: 'CoreFont';
+}
+.container{
+   
+    display: flex;
+    flex-direction: column;
+    
+}
+
+#map {
+    display: flex;
+    align-self: center;
+    justify-self: center;
+  height: 40vh;
+  width: 95vw;
+  margin-top: 1%;
+  border: solid 1px black;
+  
+}
+
+.container > p {
+    font-family: 'CoreFont';
+    font-size: 15px;
+    font-weight: bold;
+    padding: 10px;
+    
+}
+
+.container > .probabilidade{
+    padding-top: 20px;
+    
+}
+.container > .dados > p{
+  font-family: 'CoreFont';
+   font-size: 14px;
+   font-weight: 400;
+    padding: 10px;
+    
+}
+
+.container > .probabilidade {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.container > .probabilidade > h1 {
+     font-size: 20px;
+    display: flex;
+    align-self: center;
+    justify-self: center;
+    margin-top: 5%;
+}
+
+.container > .probabilidade > h2 {
+
+    margin-top: 5%;
+}
+
+app-button {
+    padding: 10px;
+}

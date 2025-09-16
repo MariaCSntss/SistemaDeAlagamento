@@ -5,19 +5,19 @@ h1,h2,h3,p,a{
     font-family: 'CoreFont';
 }
 .container{
-    padding-top: 5.2955vh;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
     
 }
 
 .container > .container-logo{
     display: flex;
-    justify-content: center;
     align-items: center;
-    width: 260px;
+    width: 80%;
 }
 
 
@@ -34,3 +34,160 @@ h1,h2,h3,p,a{
 .container > .container-logo > h1:hover{
     cursor:default;
 }
+
+.check-box{
+  display: flex;
+  flex-direction: row;
+  font-family: 'CoreFont';
+  color: gray;
+  padding: 20px 10px 10px 10px;
+  gap: 5px;
+}
+
+.check-box > input{
+  width: 20px;
+  height: 20px;
+  
+}
+
+#main-map {
+  display: flex;
+  align-self: center;
+  height: 50dvh;
+  width: 100dvw;
+  border-radius: 5px;
+  
+}
+
+
+.botoes{
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 2%;
+}
+
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+ padding-top: 10%;
+}
+
+.modal.show {
+  display: block;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  background-color: #fefefe;
+  margin: 0% 5% 5% 5%;
+  width: 90%;
+  height: 90%;
+  border-radius: 10px;
+   box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.50);
+
+}
+
+.modal-content > #modal-map {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  background-color: #fefefe;
+  width: 95%;
+  height: 72%;
+  border-radius: 5px;
+  margin: 10px;
+
+
+}
+
+.modal-content > #input-localizacao {
+  width: 90%;
+  height: 5%;
+  border-radius: 5px;
+  margin-top: 2%;
+  align-self: center;
+  border: 1px solid gray;
+
+
+}
+
+input::placeholder {
+  color: gray;
+  font-size: 14px;
+  font-style: 'CoreFont';
+  opacity: 0.7;
+  padding: 5px;
+}
+
+.modal-content > .local {
+
+  display: flex;
+  padding: 8% 0px 0px 4.5%;
+  align-items: center;
+  font-style: 'CoreFont';
+  color: gray;
+}
+
+
+.modal-content > .local > .marker {
+  padding-right: 10px;    
+  font-size: 30px;
+}
+
+.fechar {
+    margin-top: 4%;
+    position: absolute;
+    right: 8%;
+    z-index: 2000;
+    color: gray;
+}
+
+.autocomplete-sugestoes {
+  list-style: none;
+  border: 1px solid #ccc;
+  max-height: 200px;
+  overflow-y: auto;
+  margin: 5px auto 0 auto;
+  padding: 0;
+  background: #fff;
+  position: relative;
+  z-index: 999;
+  width: 90%;
+}
+
+.autocomplete-sugestoes li {
+  padding: 8px 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+.autocomplete-sugestoes li:hover {
+  background-color: #f5f5f5;
+}
+
+.header-busca {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  z-index: 999;
+  background-color: white;
+  padding: 5px;
+  border-radius: 6px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+
+

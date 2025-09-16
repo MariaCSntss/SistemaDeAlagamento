@@ -2,17 +2,13 @@
 
 <div class="container">
 
-  <div class="instrucao-container">
-    <h1>Instruções</h1>
-    <ol>
-      <li>Por favor preencha todos os campos, todas as validações devem estar verdes;</li>
-      <li>Após preenche-los, clique no botão "Solicitar";</li>
-      <li>Você receberá um link de confirmação no seu email, é só clicar nele que o técnico responsável receberá sua solicitação de conta;</li>
-      <li>Assim que o técnico aprovar sua solicitação iremos lhe informar;</li>
-      <li>Então poderá fazer login normalmente.</li>
-    </ol>
-  </div>
-      <img src="/assets/logo-lhoist.png">
+      <div class="container-logo">
+        <img src="/assets/logos/logo.png">
+        <h1>Sistema Monitoramento e Previsão de Enchentes</h1>
+    </div>
+
+    
+
       <form class="create-container">
         <div>
           <p class="labels">Nome</p>
@@ -25,11 +21,11 @@
           [_Options]="[]"
           [IconEnabled]="false"
           [_Icon]="IconsEnum.User"
-          [_IconColor]="'var(--fundoPreto)'"
+          [_IconColor]="'var(--logo)'"
           [_FontSize]="14"
           [_FontColor]="'var(--fundoPreto)'"
-          [_FontWeight]="200"
-          [_FontFamily]="'Instrument_SansMedium'"
+          [_FontWeight]="400"
+          [_FontFamily]="'CoreFont'"
           [TxtInputType]="FormFieldTxtInputTypesEnum.Email"
           [_placeHolderValue]="'Ex: Matheus'"
           [NumberMaskSufix]="''"
@@ -54,42 +50,6 @@
             </div>
         </div>
         <div>
-          <p class="labels">Sobrenome</p>
-          <app-form-field
-          [Name]="'create-account-sobrenome'"
-          [_Width]="260"
-          [_Height]="44"
-          [FieldType]="FormFieldTypes.TxtBox"
-          [_Options]="[]"
-          [IconEnabled]="false"
-          [_Icon]="IconsEnum.User"
-          [_IconColor]="'var(--fundoPreto)'"
-          [_FontSize]="14"
-          [_FontColor]="'var(--fundoPreto)'"
-          [_FontWeight]="200"
-          [_FontFamily]="'Instrument_SansMedium'"
-          [TxtInputType]="FormFieldTxtInputTypesEnum.Email"
-          [_placeHolderValue]="'Ex: Oliveira'"
-          [NumberMaskSufix]="''"
-          [NCasasDecimais]="0"
-          [CountryDataFormat]="FormFieldCountryDataFormat.Brasil"
-          />
-          <div
-          [style.display]="sobrenomeValidacaoVisible ? '' : 'none'"
-          class="container-validacao"
-          >
-            <div>
-              <p class="N_Caracteres">{{sobrenomeNCaracteres.toString()}}/15</p>
-              <i
-              [style.color]=" sobrenomeValido ? 'green': 'red'"
-              class="{{sobrenomeValido ? this.IconsEnum.Done_OutLine : this.IconsEnum.Alert}}"></i>
-              <p
-              [style.color]=" sobrenomeValido ? 'green': 'red'"
-              >{{sobrenomeValido ? 'Ok' : 'Sobrenome Inválido'}}</p>
-            </div>
-          </div>
-        </div>
-        <div>
           <p class="labels">Email</p>
           <app-form-field
           [Name]="'create-account-email'"
@@ -97,13 +57,13 @@
           [_Height]="44"
           [FieldType]="FormFieldTypes.TxtBox"
           [_Options]="[]"
-          [IconEnabled]="false"
+          [IconEnabled]="true"
           [_Icon]="IconsEnum.User"
-          [_IconColor]="'var(--fundoPreto)'"
+          [_IconColor]="'var(--logo)'"
           [_FontSize]="14"
           [_FontColor]="'var(--fundoPreto)'"
-          [_FontWeight]="200"
-          [_FontFamily]="'Instrument_SansMedium'"
+          [_FontWeight]="400"
+          [_FontFamily]="'CoreFont'"
           [TxtInputType]="FormFieldTxtInputTypesEnum.Email"
           [_placeHolderValue]="'Ex: matheus.oliveira@empresa.com'"
           [NumberMaskSufix]="''"
@@ -135,11 +95,11 @@
           [_Options]="[]"
           [IconEnabled]="true"
           [_Icon]="IconsEnum.Key"
-          [_IconColor]="'var(--fundoPreto)'"
+          [_IconColor]="'var(--logo)'"
           [_FontSize]="14"
           [_FontColor]="'var(--fundoPreto)'"
-          [_FontWeight]="200"
-          [_FontFamily]="'Instrument_SansMedium'"
+          [_FontWeight]="400"
+          [_FontFamily]="'CoreFont'"
           [TxtInputType]="FormFieldTxtInputTypesEnum.Password"
           [_placeHolderValue]="'Senha'"
           [NumberMaskSufix]="''"
@@ -198,29 +158,6 @@
           </div>
         </div>
         <div>
-          <p class="labels">Unidade</p>
-          <app-form-field
-          [Name]="'create-account-unidade'"
-          [_Width]="260"
-          [_Height]="44"
-          [FieldType]="FormFieldTypes.ComboBox"
-          [_Options]="this.bairroComboModel"
-          [IconEnabled]="false"
-          [_Icon]="IconsEnum.User"
-          [_IconColor]="'var(--fundoPreto)'"
-          [_FontSize]="14"
-          [_FontColor]="'var(--fundoPreto)'"
-          [_FontWeight]="200"
-          [_FontFamily]="'Instrument_SansMedium'"
-          [TxtInputType]="FormFieldTxtInputTypesEnum.Email"
-          [_placeHolderValue]="'Email'"
-          [NumberMaskSufix]="''"
-          [NCasasDecimais]="0"
-          [CountryDataFormat]="FormFieldCountryDataFormat.Brasil"
-          />
-
-        </div>
-        <div>
           <p class="labels">Confirmação de Senha</p>
           <app-form-field
           [Name]="'create-account-confirmSenha'"
@@ -230,11 +167,11 @@
           [_Options]="[]"
           [IconEnabled]="true"
           [_Icon]="IconsEnum.Key"
-          [_IconColor]="'var(--fundoPreto)'"
+          [_IconColor]="'var(--logo)'"
           [_FontSize]="14"
           [_FontColor]="'var(--fundoPreto)'"
-          [_FontWeight]="200"
-          [_FontFamily]="'Instrument_SansMedium'"
+          [_FontWeight]="400"
+          [_FontFamily]="'CoreFont'"
           [TxtInputType]="FormFieldTxtInputTypesEnum.Password"
           [_placeHolderValue]="'Senha novamente'"
           [NumberMaskSufix]="''"
@@ -263,13 +200,13 @@
           [_Height]="44"
           [FieldType]="FormFieldTypes.TxtBox"
           [_Options]="[]"
-          [IconEnabled]="false"
-          [_Icon]="IconsEnum.User"
-          [_IconColor]="'var(--fundoPreto)'"
+          [IconEnabled]="true"
+          [_Icon]="IconsEnum.Phone"
+          [_IconColor]="'var(--logo)'"
           [_FontSize]="14"
           [_FontColor]="'var(--fundoPreto)'"
-          [_FontWeight]="200"
-          [_FontFamily]="'Instrument_SansMedium'"
+          [_FontWeight]="400"
+          [_FontFamily]="'CoreFont'"
           [TxtInputType]="FormFieldTxtInputTypesEnum.CellPhone"
           [_placeHolderValue]="'Email'"
           [NumberMaskSufix]="''"
@@ -294,7 +231,7 @@
 
         <div class="container-buttons">
           <app-button
-          [name]="'create-account-solicitar'"
+          [name]="'create-account-registrar'"
           
           />
           <app-button
@@ -305,25 +242,6 @@
       </form>
 </div>
 
-<div class="popup"
-[style.display]="popUpVisible ? 'flex' : 'none'"
->
-  <i class="{{IconsEnum.Close}}"
-  (click)="fecharPopUp()"
-  ></i>
-  <img src="/assets/EVA_Sorrindo.png">
-  <div class="container">
-    <p>{{`Olá me chamo E.V.A (Environment Virtual Agent), e sou responsável pelas automações da Lightning Technologies!`}}</p>
-    <p>{{`Acabei de enviar um email de confirmação para o email cadastrado, por favor clique no link para confirma-lo, não se esqueça de verificar a caixa de spam e lixeira em 😉`}}</p>
-    <p>{{`Caso não tenha recebido o email, você poderá reenvia-lo em ${segundosParaReenviar} segundos, e caso ja tenha confirmado, você já pode fechar esta janela`}}</p>
-    <button
-    [disabled]="segundosParaReenviar > 0 ? true : false"
-    [style.background-color]="segundosParaReenviar > 0 ? 'gray': 'var( --azulClaroVibrante)' "
-    [style.cursor]="segundosParaReenviar > 0 ? 'default': 'pointer' "
-    (click)="reenviarEmail()"
-    >
-      Reenviar Email
-    </button>
-  </div>
 
-</div>
+
+<app-alert></app-alert>

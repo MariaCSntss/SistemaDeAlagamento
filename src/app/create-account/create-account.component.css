@@ -2,13 +2,35 @@
 
 /* Mobile First */
 
- .container {
-  margin: 20px auto;
-  max-width: 95vw;
-  background: #FFFFFF;
-  border-radius: 50px;
-  display: flex;
-  flex-direction: column;
+.container{
+    padding-top: 5.2955vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.container > .container-logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 260px;
+}
+
+
+.container > .container-logo > img{
+    width: 150px;
+    height: 150px;
+}
+.container > .container-logo > h1{
+    font-size: calc(var(--FontSize)*1.683);
+    font-weight: 600;
+    color: var(--logo);
+    margin-left: 4px;
+}
+.container > .container-logo > h1:hover{
+    cursor:default;
 }
 
  .container > .create-container{
@@ -27,10 +49,8 @@
   margin: 20px 0px 10px 10px;
   width: 70px;
 }
-.container > .create-container > div {
-}
 .container > .create-container > div > .labels{
-  font-family: 'Instrument_SansMedium';
+  font-family: 'CoreFont';
   text-align: left;
   width: 260px;
   margin-bottom: 6px;
@@ -68,7 +88,7 @@
   padding-top: 50px;
 }
 .container > .create-container > .container-buttons >  app-button{
-    margin-bottom: 20px;   
+    margin-bottom: 10px;   
 }
  .container > .instrucao-container{
   display: flex;
@@ -102,62 +122,7 @@
   font-size: 14px;
 }
 
-.popup{
-  background-color: #FFFFFF;
-  position:fixed;
-  top: 10px;
-  left: calc((50dvw) - 150px);
-  width: 300px;
-  height: 620px;
-  box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.425);
-  
-  border-radius: 40px;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  padding: 10px 20px;
-  box-sizing: border-box;
-
-}
-.popup > i{
-  position: absolute;
-  top: 25px;
-  right: 25px;
-  cursor: pointer;
-}
-.popup > img{
-  height: 200px;
-  margin-bottom: 10px;
-  
-}
-.popup > .container{
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  height: 100%;
-}
-.popup > .container > p{
-  font-family: 'robotoMedium';
-  font-size: 15px;
-  margin-top: 10px;
-  text-align: justify;
-}
-.popup > .container > button{
-  margin-top: 20px;
-  width: 240px;
-  padding: 10px 20px;
-  font-family: 'robotoMedium';
-  color:white;
-  font-size: 15px;
-  border-radius: 7px;
-  cursor: pointer;
-}
-.popup > .container > button:active{
-  transform: scale(0.97);
-}
 
 
 
@@ -176,18 +141,7 @@
   .container > .create-container > div > .labels{
     font-size: 13px;
   }
-  .popup {
-    width: 400px;
-    height: 820px;
-    left: calc((50dvw) - 200px);
-    margin-top: 25px;
-  }
-  .popup >img {
-    height: 300px;
-  }
-  .popup > .container > p{
-  font-size: 18px;
-}
+  
 }
 @media only screen and (min-width: 1040px) {
   .container{
@@ -211,16 +165,6 @@
   }
   .container > .create-container > .container-buttons{
     padding-top: 5px;
-  }
-  .popup{
-    flex-direction: row;
-    width: 800px;
-    height: 400px;  
-    top: 50px;
-    left: calc((100vw/2) - 400px);
-  }
-  .popup > .container{
-    justify-content: center;
   }
 
 }

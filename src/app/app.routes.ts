@@ -4,6 +4,7 @@ import { inject } from '@angular/core';
 import { CanMatchFn, RedirectCommand, Router, Routes } from '@angular/router';
 import { CreateAccountComponent } from './create-account/create-account.component';
 import { MainComponent } from './main/main.component';
+import { RegiaoComponent } from './main/regiao/regiao.component';
 
 
 
@@ -32,6 +33,12 @@ export const routes: Routes = [
         path:'main',
         component: MainComponent,
  
+        canMatch: [FluxoDoApp]
+        
+    },
+       {
+        path:'regiao',
+        component: RegiaoComponent,
         canMatch: [FluxoDoApp]
         
     },
