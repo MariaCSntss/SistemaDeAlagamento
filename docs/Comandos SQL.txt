@@ -1,0 +1,18 @@
+Comandos SQL
+
+- Selecionar Tabela : Select * From NomedaTabela;
+- Deletar Tabela : DROP TABLE NomeDaTabela;
+- Esvaziar Tabela: TRUNCATE TABLE NomeDaTabela;
+- Adicionar coluna na tabela:
+
+ALTER TABLE Produtos
+ADD Descricao VARCHAR(255);
+
+
+- Scaffold:
+
+SQL Server User Auth
+scaffold-dbcontext "Server=192.168.0.232;DataBase=MPENG;User Id=TESTE;Password=tst123;TrustServerCertificate=True"  Microsoft.EntityFrameworkCore.SqlServer -o Models
+
+Windows Auth
+scaffold-dbcontext "Server=localhost;DataBase=sistemaDeAlagamentos;Integrated Security=True;TrustServerCertificate=True"  Microsoft.EntityFrameworkCore.SqlServer -o Models -t Unidades
