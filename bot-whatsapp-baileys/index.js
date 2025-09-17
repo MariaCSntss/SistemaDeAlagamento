@@ -9,6 +9,36 @@ const {
 const qrcode = require("qrcode-terminal");
 const P = require("pino");
 
+const express = require("express");
+const app = express();
+app.use(express.json());
+
+let sockGlobal; // guardará o socket do Baileys
+
+// Expondo a função para enviar mensagem
+app.post("/enviar-mensagem", async (req, res) => {
+    const { numero, mensagem } = req.body;
+
+    if (!sockGlobal) {
+        return res.status(500).send("Bot ainda não está conectado.");
+    }
+
+    try {
+        const numeroComDDD = numero.replace(/\D/g, "") + "@s.whatsapp.net";
+        await sockGlobal.sendMessage(numeroComDDD, { text: mensagem });
+        res.send("Mensagem enviada com sucesso!");
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Erro ao enviar mensagem.");
+    }
+});
+
+app.listen(3000, () => {
+    console.log("🚀 API do bot rodando em http://localhost:3000");
+});
+
+
+
 async function startBot() {
     const { version, isLatest } = await fetchLatestBaileysVersion();
     console.log(`📦 Usando versão do WhatsApp Web: v${version}, atualizada? ${isLatest}`);
@@ -64,6 +94,10 @@ async function startBot() {
             }
         }
     });
+
+    sockGlobal = sock;
+
 }
 
 startBot();
+

@@ -1,9 +1,11 @@
-﻿using backend.Models;
+using backend.Models;
 using backend.Services;
 using lightning_core_api.Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace backend.Controllers {
     [Route("[controller]")]
@@ -15,15 +17,19 @@ namespace backend.Controllers {
         private readonly EmailService _emailService;
         private readonly UsersServices _usersServices;
         private readonly MapsService _mapsService;
+         private readonly VerificacaoService _verificacao;
 
-        public Usuarios(Context context, EmailService emailService) {
+
+    public Usuarios(Context context, EmailService emailService) {
             _context = context;
             _criptografiaService = new CriptografiaService();
             _regexServices = new RegexServices();
             _emailService = emailService;
             _usersServices = new UsersServices();
             _mapsService = new MapsService();
-        }
+         
+
+    }
 
         public class LoginRequest {
             public string Email { get; set; }
@@ -109,22 +115,15 @@ namespace backend.Controllers {
             return Ok(new { message = "Usuário criado com sucesso" });
         }
 
-        [HttpGet("usuarios-para-notificar")]
-        public IActionResult GetUsuariosParaNotificar() {
-            var usuarios = _context.Usuarios
-                .Where(u => u.DesejaNotificacao)
-                .ToList()
-                .Where(u => {
-                    var distancia = _mapsService.CalcularDistancia(u., u.Longitude, sensor.Lat, sensor.Lng);
-                    var prob = CalcularProbabilidade(sensor);
-                    return distancia < 1000 && prob >= 70; // 1km, 70%
-                });
-
-            return Ok(usuarios);
-        }
+    [HttpPost("verificar")]
+    public async Task<IActionResult> Verificar() {
+      await _verificacao.VerificarUsuariosProximosAsync();
+      return Ok("Verificação finalizada.");
+    }
 
 
-        [HttpGet("get")]
+
+    [HttpGet("get")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetUsuarios() {
             var usuarios = await _context.Usuarios.ToListAsync();

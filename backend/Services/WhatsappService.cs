@@ -1,22 +1,37 @@
-﻿using backend.Models;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
+using System.Net.Http;
 using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace backend.Services {
-    public class WhatsappService {
-        public async Task EnviarMensagem(string numero, string mensagem) {
-            // Exemplo com Z-API (https://z-api.io)
-            var payload = new {
-                phone = numero,
-                message = mensagem
-            };
+  public class WhatsappService {
 
-            var client = new HttpClient();
-            var json = JsonConvert.SerializeObject(payload);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
+    private readonly HttpClient _http;
 
-            await client.PostAsync("https://api.z-api.io/instances/3E71765E5578803E7F603A43AE8FC5E9/token/249B299182A4C753D9F82AA1/send-text", content);
-        }
+    public WhatsappService(HttpClient http) {
+      _http = http;
     }
+
+    public async Task EnviarMensagem(string numero, string mensagem) {
+      var payload = new {
+        numero = numero,
+        mensagem = mensagem
+      };
+
+      var json = JsonSerializer.Serialize(payload);
+      var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+      try {
+        var resposta = await _http.PostAsync("http://localhost:3000/enviar-mensagem", content);
+        if (!resposta.IsSuccessStatusCode) {
+          var erro = await resposta.Content.ReadAsStringAsync();
+          Console.WriteLine($"Erro ao enviar WhatsApp: {erro}");
+        }
+      }
+      catch (Exception ex) {
+        Console.WriteLine($"❌ Erro ao conectar com o bot: {ex.Message}");
+      }
+    }
+  }
 }
+

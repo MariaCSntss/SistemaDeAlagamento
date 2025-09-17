@@ -34,13 +34,13 @@ namespace backend {
 
             var currentDir = AppContext.BaseDirectory.ToLower();
             switch (currentDir) {
-                case "c:\\users\\nicolas\\desktop\\gestao-fotovoltaica\\dev\\backend\\":
+                case "c:\\users\\nicolas\\desktop\\sm\\dev\\backend\\":
                     environment = ENV_TYPE.Development;
-                    gestao_frontEndDomain = "dev-api.gestaofotovoltaica.com.br";
+                    gestao_frontEndDomain = "dev-sm-api.lightning.tec.br";
                     break;
-                case "c:\\users\\nicolas\\desktop\\gestao-fotovoltaica\\prod\\backend\\":
+                case "c:\\users\\nicolas\\desktop\\sm\\prod\\backend\\":
                     environment = ENV_TYPE.Production;
-                    gestao_frontEndDomain = "api.gestaofotovoltaica.com.br";
+                    gestao_frontEndDomain = "sm-api.lightning.tec.br";
                     break;
                 default:
                     environment = ENV_TYPE.Local_Development;
@@ -53,7 +53,7 @@ namespace backend {
             builder.Services.AddCors(options => {
                 options.AddPolicy(name: "prod", policy => {
                     policy.WithOrigins(
-                        "https://www.gestaofotovoltaica.com.br")
+                        "https://sm.lightning.tec.br")
                      .AllowAnyHeader()
                      .AllowCredentials()
                      .AllowAnyMethod()
@@ -62,7 +62,7 @@ namespace backend {
                 });
                 options.AddPolicy(name: "dev", policy => {
                     policy.WithOrigins(
-                        "https://dev.gestaofotovoltaica.com.br",
+                        "https://dev-sm.lightning.tec.br",
                         "http://localhost:4200",
                         "http://localhost:7039",
                         "http://192.168.1.39:8080",
@@ -122,9 +122,9 @@ namespace backend {
                 });
                 options.ParameterFilter<PasswordParameterFilter>();
                 options.SwaggerDoc("v1", new OpenApiInfo {
-                    Title = $"Gestao Fotovoltaica Backend: {environment.ToString()} Environment",
+                    Title = $"Sistema de Monitoramento Backend: {environment.ToString()} Environment",
                     Version = "v1",
-                    Description = $"API responsavel pelo controle da Aplicacao Gestao Fotovoltaica"
+                    Description = $"API responsavel pelo controle da Aplicacao Sistema de Monitoramento"
                 });
             });
 
@@ -136,10 +136,10 @@ namespace backend {
             string? connectionString;
             switch (environment) {
                 case ENV_TYPE.Development:
-                    connectionString = Environment.GetEnvironmentVariable("gestao-fotovoltaica-dev-cs");
+                    connectionString = Environment.GetEnvironmentVariable("sm-cs");
                     break;
                 case ENV_TYPE.Production:
-                    connectionString = Environment.GetEnvironmentVariable("gestao-fotovoltaica-prod-cs");
+                    connectionString = Environment.GetEnvironmentVariable("sm-cs");
                     break;
                 case ENV_TYPE.Local_Development:
                     connectionString = builder.Configuration.GetConnectionString("CoreDb");
@@ -149,13 +149,15 @@ namespace backend {
                     break;
             }
 
-            builder.Services.AddEntityFrameworkSqlServer()
+      builder.Services.AddHttpClient<WhatsappService>();
+
+      builder.Services.AddEntityFrameworkSqlServer()
             .AddDbContext<Context>(options =>
                 options
                     .UseSqlServer(connectionString)
-                    // ??? Habilita log detalhado (mostra par‚metros dos comandos SQL)
+                    // ??? Habilita log detalhado (mostra par√¢metros dos comandos SQL)
                     .EnableSensitiveDataLogging()
-                    // ??? Imprime cada instruÁ„o SQL no console/Output
+                    // ??? Imprime cada instru√ß√£o SQL no console/Output
                     .LogTo(Console.WriteLine,
                            Microsoft.Extensions.Logging.LogLevel.Information)
             );
