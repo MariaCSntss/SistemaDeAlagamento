@@ -1,0 +1,26 @@
+<div class="container"
+[style.display]="isVisible ? '' : 'none'"
+>
+    <div
+    [style.background-color]="this.type == AlerTypes.OK 
+    ? 'green' 
+    : this.type == AlerTypes.Alert ? 'orange' : 'rgb(140, 0, 0)' "
+    >
+        <div class="container-close">
+            <i
+            class="{{this.IconsEnum.Close}} close"
+            [style.color]=" this.Icon == IconsEnum.Alert ? 'black' : 'white' "
+            (click)="closeClicked()"
+            ></i>
+        </div>
+        <div class="container-text">
+            <i
+            class="{{this.Icon}}"
+            [style.color]=" this.Icon == IconsEnum.Alert ? 'black' : 'white' "
+            ></i>
+            <p
+            [style.color]=" this.Icon == IconsEnum.Alert ? 'black' : 'white' "
+            >{{text}}</p>
+        </div>
+    </div>
+</div>

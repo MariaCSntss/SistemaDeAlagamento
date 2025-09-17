@@ -1,0 +1,37 @@
+<div class="container">
+
+    <app-button [name]="'voltar'"></app-button>
+
+  <!-- Mapa -->
+  <div class="mapa">
+    <div id="map" style="height: 300px; width: 100%;"></div>
+  </div>
+
+
+  <!-- Nome da região e distância -->
+  <p><strong>Região do usuário:</strong> {{ nomeRegiaoUsuario }}</p>
+  <p><strong>Região do Esp32:</strong> {{ nomeRegiaoEsp }}</p>
+  <p><strong>Distância até o sensor:</strong> {{ formatarDistancia(distanciaMetros) }} metros</p>
+
+  <!-- Dados dos sensores -->
+  <p><strong>Dados dos sensores:</strong></p>
+
+<div class="dados" *ngFor="let sensor of dados">
+  <p>- Sensor de {{ sensor.tipo }}: {{ sensor.valor + ' ' + '(' + sensor.unidadeMedida + ')' }} </p>
+</div>
+
+ 
+
+  <!-- Probabilidade -->
+  <div class="probabilidade">
+    <h3>Probabilidade de Alagamento:</h3>
+    <h1>{{probabilidade }}%</h1>
+  </div>
+
+
+
+</div>
+
+
+
+<app-alert></app-alert>
