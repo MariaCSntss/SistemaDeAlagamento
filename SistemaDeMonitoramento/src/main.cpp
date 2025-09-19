@@ -1,82 +1,145 @@
 #include <WiFi.h>
 #include <WiFiClientSecure.h>
 #include <HTTPClient.h>
+#include <Adafruit_Sensor.h>
+#include <DHT.h>
 
+// -------- CONFIG WIFI --------
 const char* ssid = "IMPLANTAR_MARIA CLARA";
 const char* password = "999711712";
+String serverURL = "https://sm-api.lightning.tec.br/Sensores/enviar-leitura";
 
-String serverURL = "https://192.168.1.5:7012/Sensores/enviar-leitura";
 
-struct Sensor {
-  int sensorID;
-  int pin;
-};
+// -------- CONFIG SENSORES --------
+#define DHTPIN 23
+#define DHTTYPE DHT22
+#define TRIG_PIN 18
+#define ECHO_PIN 19
+#define PLUVI_PIN 4
 
-Sensor sensores[] = {
-  {1, 34}, // SensorID 1, pino 34
-  {2, 35}, // SensorID 2, pino 35
-  {3, 32}  // SensorID 3, pino 32
-};
+const int SENSORID_DHT_TEMP = 1;
+const int SENSORID_DHT_UMID = 2;
+const int SENSORID_ULTRA = 3;
+const int SENSORID_PLUVI = 4;
 
-const int numSensores = sizeof(sensores) / sizeof(sensores[0]);
+// -------- VARIÁVEIS DHT --------
+DHT dht(DHTPIN, DHTTYPE);
 
+// -------- VARIÁVEIS PLUVIÔMETRO --------
+volatile unsigned int pluviCount = 0;
+unsigned int lastPluviCount = 0;
+unsigned long lastPluviTime = 0;
+bool pluviActive = false;
+
+unsigned long previousMillisDHT = 0;
+unsigned long previousMillisUltra = 0;
+unsigned long intervalLeitura = 7000; // 7 segundos para cada
+
+// --- FUNÇÃO INTERRUPÇÃO PLUVIÔMETRO ---
+void IRAM_ATTR pluviInterruption() {
+  unsigned long now = millis();
+  if (now - lastPluviTime > 300) { 
+    pluviCount++;
+    lastPluviTime = now;
+    pluviActive = true;
+  }
+}
+
+// --- FUNÇÃO LEITURA ULTRASSÔNICO ---
+float readUltrasonic() {
+  digitalWrite(TRIG_PIN, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TRIG_PIN, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIG_PIN, LOW);
+  long duration = pulseIn(ECHO_PIN, HIGH, 30000);
+  if (duration == 0) return -1.0;
+  float distancia_cm = (duration * 0.034) / 2;
+  return distancia_cm / 100.0; // metros
+}
+
+// --- FUNÇÃO ENVIO PARA BACKEND ---
+void enviaLeitura(int sensorID, float valor) {
+  WiFiClientSecure client;
+  client.setInsecure();
+  HTTPClient https;
+
+  https.begin(client, serverURL);
+  https.addHeader("Content-Type", "application/json");
+
+  String json = "{\"sensorID\":" + String(sensorID) + ",\"valorMedido\":" + String(valor, 2) + "}";
+  Serial.print("Enviando: ");
+  Serial.println(json);
+
+  int code = https.POST(json);
+  Serial.print("Código resposta: ");
+  Serial.println(code);
+  if (code > 0) {
+    String response = https.getString();
+    Serial.println("Resposta servidor:");
+    Serial.println(response);
+  } else {
+    Serial.print("Erro ao enviar POST: ");
+    Serial.println(https.errorToString(code).c_str());
+  }
+  https.end();
+}
+
+// --- SETUP ---
 void setup() {
   Serial.begin(115200);
   WiFi.begin(ssid, password);
-
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
   }
   Serial.println("\nConectado ao Wi-Fi!");
 
+  dht.begin();
+  pinMode(TRIG_PIN, OUTPUT);
+  pinMode(ECHO_PIN, INPUT);
 
-  for (int i = 0; i < numSensores; i++) {
-    pinMode(sensores[i].pin, INPUT);
-  }
+  pinMode(PLUVI_PIN, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(PLUVI_PIN), pluviInterruption, FALLING);
+
+  Serial.println("Sistema iniciado.");
 }
 
+// --- LOOP ---
 void loop() {
-  WiFiClientSecure client;
-  client.setInsecure(); 
 
-  for (int i = 0; i < numSensores; i++) {
-    int leitura = analogRead(sensores[i].pin); 
-    float valorConvertido = leitura * (3.3 / 4095.0); // convertendo para tensão nesse caso ( verificar conversão)
 
-    HTTPClient https;
-    https.begin(client, serverURL);
-    https.addHeader("Content-Type", "application/json");
+  unsigned long now = millis();
 
-    // JSON para cada sensor
-    String json = "{";
-    json += "\"sensorID\":" + String(sensores[i].sensorID) + ",";
-    json += "\"valorMedido\":" + String(valorConvertido, 2);
-    json += "}";
+  // ---- LEITURA DHT22 (a cada 7s) ----
+  if (now - previousMillisDHT >= intervalLeitura) {
+    previousMillisDHT = now;
 
-    Serial.print("Enviando para SensorID ");
-    Serial.print(sensores[i].sensorID);
-    Serial.print(": ");
-    Serial.println(json);
+    float h = dht.readHumidity();
+    float t = dht.readTemperature();
 
-    int httpResponseCode = https.POST(json);
+    if (!isnan(h)) enviaLeitura(SENSORID_DHT_UMID, h);
+    else Serial.println("Falha na leitura de Umidade");
 
-    Serial.print("Código resposta: ");
-    Serial.println(httpResponseCode);
-
-    if (httpResponseCode > 0) {
-      String response = https.getString();
-      Serial.println("Resposta servidor:");
-      Serial.println(response);
-    } else {
-      Serial.print("Erro ao enviar POST: ");
-      Serial.println(https.errorToString(httpResponseCode).c_str());
-    }
-
-    https.end();
-
-    delay(2000); // Aguarda 2 segundos entre cada sensor 
+    if (!isnan(t)) enviaLeitura(SENSORID_DHT_TEMP, t);
+    else Serial.println("Falha na leitura de Temperatura");
   }
 
-  delay(10000); // Aguarda 10 segundos para nova rodada de leituras
+  // ---- LEITURA ULTRASSÔNICO (a cada 7s, alternado) ----
+  if (now - previousMillisUltra >= intervalLeitura) {
+    previousMillisUltra = now;
+
+    float dist = readUltrasonic();
+    if (dist >= 0 && dist < 3.0) enviaLeitura(SENSORID_ULTRA, dist);
+    else Serial.println("Falha leitura Ultrassônico");
+  }
+
+  // ---- LEITURA PLUVIÔMETRO (quando novo pulso) ----
+  if (pluviCount != lastPluviCount) {
+    float chuva = pluviCount * 0.25; // Cada pulso = 0.25mm (ajuste se necessário)
+    enviaLeitura(SENSORID_PLUVI, chuva);
+    lastPluviCount = pluviCount;
+  }
+
+  delay(100); // Loop rápido
 }

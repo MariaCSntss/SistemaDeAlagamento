@@ -7,10 +7,16 @@
   <div class="mapa">
     <!-- Mapa principal -->
     <div id="main-map" ></div>
+    
+<div class="check-box" *ngIf="!desejaNotificacao">
+  <input type="checkbox" (click)="toggleCheckBox()" />
+  <p>Desejo receber notificações quando estiver em área de risco</p>
+</div>
 
-    <div class="check-box">
-      <input type="checkbox" (click)="toggleCheckBox()"><p>Desejo receber notificações quando estiver em area de risco</p>
-    </div>
+<div *ngIf="desejaNotificacao" class="check-box-ativada" style="color: green; font-weight: bold;">
+  ✅ Notificações ativadas!
+</div>
+
 
     <!-- Botões abaixo do mapa -->
     <div class="botoes" >

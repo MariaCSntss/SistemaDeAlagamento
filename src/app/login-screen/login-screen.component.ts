@@ -156,7 +156,7 @@ const httpOptions = {
 };
 
 this.http
-  .post<any>(`https://${this.AppService.apiDomain}/Usuarios/post/login`, body, httpOptions)
+  .post<any>(`${this.AppService.apiDomain}/Usuarios/post/login`, body, httpOptions)
 
 .subscribe({
 next: (json: any) => {
@@ -173,6 +173,8 @@ next: (json: any) => {
   this.AppService.usuarioAutenticado.email        = json.data.email;
   this.AppService.usuarioAutenticado.celular      = json.data.celular;
   this.AppService.usuarioAutenticado.token        = json.data.token;
+  localStorage.setItem('usuarioID', String(this.AppService.usuarioAutenticado.usuarioID));
+
 
   this.router.navigate(['/main']);
 },

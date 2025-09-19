@@ -53,20 +53,20 @@ export class AppComponent implements OnInit {
 }
 
 
-  setApiUrlComplement(){
-    switch (this.AppService.environment){
-      case this.EnvironmentEnum.Development:
-        this.AppService.apiDomain = 'dev-api.gestaoFotovoltaica.com.br'
-        break;
-      case this.EnvironmentEnum.Local_Development:
-        this.AppService.apiDomain = 'localhost:7012'
-        break;
-      case this.EnvironmentEnum.Production:
-        this.AppService.apiDomain = 'api.gestaoFotovoltaica.com.br'
-        break;
-    }
-
+setApiUrlComplement(){
+  switch (this.AppService.environment){
+    case this.EnvironmentEnum.Development:
+      this.AppService.apiDomain = 'https://dev-sm-api.lightning.tec.br'
+      break;
+    case this.EnvironmentEnum.Local_Development:
+      this.AppService.apiDomain = 'https://localhost:7012'
+      break;
+    case this.EnvironmentEnum.Production:
+      this.AppService.apiDomain = 'https://sm-api.lightning.tec.br'
+      break;
   }
+}
+
 
  
 

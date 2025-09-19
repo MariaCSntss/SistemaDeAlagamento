@@ -85,15 +85,9 @@ export class AppService{
     return date;
   }
 
-  public verifyIfAppIsOnline ():Observable<string>{
-        const httpOptions = {
-        headers: new HttpHeaders({
-            'Content-Type':  'application/json'
-        })
-        }
-        return this.http
-        .get<string>("https://lhoist-api.lightning.tec.br/Ping/get/ApiIsOn",httpOptions)
-    }
-
+getUsuarioId(): number | null {
+  const raw = localStorage.getItem("usuarioID");
+  return raw ? Number(raw) : null;
+}
 
 }

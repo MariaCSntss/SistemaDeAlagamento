@@ -67,21 +67,39 @@ export class MainComponent implements OnDestroy {
 
   ngOnInit(): void {
 
-      navigator.geolocation.getCurrentPosition(
-    (pos) => {
-      const lat = pos.coords.latitude;
-      const lng = pos.coords.longitude;
+    navigator.geolocation.getCurrentPosition(
+  (pos) => {
+    console.log(
+      "Latitude:", pos.coords.latitude,
+      "Longitude:", pos.coords.longitude,
+      "Precisão (m):", pos.coords.accuracy
+    );
+  },
+  (err) => {
+    console.error("Erro ao obter localização:", err);
+    alert("Não foi possível obter sua localização atual.");
+  },
+  {
+    enableHighAccuracy: true, // força GPS / Wi-Fi
+    timeout: 10000,           // espera até 10s
+    maximumAge: 0             // nunca usar cache
+  }
+);
 
-      this.mapa.setCenter({ lat, lng });
-      this.localizacaoAtual = { lat, lng }; // salvar para uso futuro
-    },
-    (err) => {
-      console.error("Erro ao obter localização:", err);
-      alert("Não foi possível obter sua localização atual.");
+
+ 
+ this.mainService.obterUsuario(this.AppService.usuarioAutenticado.usuarioID)
+  .subscribe((usuario: { desejaNotificacao: boolean; }) => {
+    this.desejaNotificacao = usuario.desejaNotificacao;
+
+    if (this.desejaNotificacao) {
+      const id = this.AppService.usuarioAutenticado?.usuarioID;
+      if (id) this.iniciarEnvioContinuoLocalizacao(id.toString());
     }
-  );
+  });
 
-    this.screenWidth = this._window.innerWidth;
+      this.screenWidth = this._window.innerWidth;
+
     this.startListenToButtonClick();
     this.AlertModel = new AlertModel();
 
@@ -100,20 +118,27 @@ ngAfterViewInit(): void {
 
     const input = document.getElementById('input-localizacao') as HTMLInputElement;
     if (input) {
-      const autocomplete = new google.maps.places.Autocomplete(input);
-      autocomplete.addListener('place_changed', () => {
-        const place = autocomplete.getPlace();
-        if (!place.geometry || !place.geometry.location) {
-          alert("Endereço inválido.");
-          return;
-        }
 
-        const lat = place.geometry.location.lat();
-        const lng = place.geometry.location.lng();
-        this.localSelecionado = { lat, lng };
-        this.modalMap.setCenter({ lat, lng });
-        this.setMarker(lat, lng, `Lat: ${lat}<br>Lng: ${lng}`);
-      });
+const autocomplete = new google.maps.places.Autocomplete(input);
+
+autocomplete.addListener("place_changed", () => {
+  const place = autocomplete.getPlace();
+  if (!place.geometry || !place.geometry.location) {
+    alert("Endereço inválido.");
+    return;
+  }
+
+  const lat = place.geometry.location.lat();
+  const lng = place.geometry.location.lng();
+
+  this.selectedLocation = { lat, lng };
+  this.localSelecionado = { lat, lng };
+
+  this.modalMap.setCenter({ lat, lng });
+  this.setMarker(lat, lng, `Lat: ${lat}<br>Lng: ${lng}`);
+});
+
+
     }
   }, 300);
 }
@@ -131,7 +156,6 @@ ngAfterViewInit(): void {
       }
       if (model.startsWith('confirmarArea')) {
         this.AppService.setButtonLaodingState('confirmarArea', true);
-        this.onSelecionarOutraLocalizacao();
           const location = this.localSelecionado || this.selectedLocation;
 if (location) {
   const { lat, lng } = location;
@@ -142,12 +166,18 @@ if (location) {
     });
   }
 
-  toggleCheckBox(){
-    const usuario = new UsuarioModel();
-    this.desejaNotificacao = true;
-    console.log(this.desejaNotificacao)
-    this.EnviarNotificacao(usuario);
-  }
+toggleCheckBox() {
+  this.desejaNotificacao = !this.desejaNotificacao;
+
+  // Chama o backend
+  const usuarioId = this.AppService.usuarioAutenticado.usuarioID;
+  this.mainService.atualizarDesejarNotificacao(usuarioId, this.desejaNotificacao).subscribe({
+
+
+  });
+}
+
+
 
   abrirInfo() {
     this.router.navigate(['/regiao']);
@@ -166,6 +196,7 @@ if (location) {
       }, 100);
     });
 
+  
     setTimeout(() => {
       this.AppService.setButtonLaodingState('areaSelecionada', false);
     }, 500);
@@ -220,25 +251,23 @@ onSelecionarOutraLocalizacao() {
   this.mostrarModal = true;
   this.localSelecionado = null;
 
-  setTimeout(() => {
-    requestAnimationFrame(() => {
-      const input = document.getElementById("input-localizacao") as HTMLInputElement;
-      if (!input) return;
+  const input = document.getElementById("input-localizacao") as HTMLInputElement;
+  if (!input) return;
 
-      // Listener para pressionar Enter
-      input.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter') {
-          event.preventDefault();
-          this.buscarLocal(input.value);
-        }
-      });
+  const listener = () => {
+    this.buscarLocal(input.value);
+  };
 
-      // Listener para sair do campo
-      input.addEventListener('blur', () => {
-        this.buscarLocal(input.value);
-      });
-    });
-  }, 300);
+  input.removeEventListener('keydown', listener); 
+  input.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      listener();
+    }
+  });
+
+  input.removeEventListener('blur', listener);
+  input.addEventListener('blur', listener);
 }
 
 
@@ -246,22 +275,26 @@ onSelecionarOutraLocalizacao() {
 
 initMainMap(): void {
   const mapDiv = document.getElementById('main-map')!;
-  this.mainMap = new google.maps.Map(mapDiv, {
-    center: { lat: -15.7942, lng: -47.8822 }, // fallback
-    zoom: 14,
-  });
+ 
 
   navigator.geolocation.getCurrentPosition(
     (position) => {
       const lat = position.coords.latitude;
       const lng = position.coords.longitude;
 
+  this.mainMap = new google.maps.Map(mapDiv, {
+  center: { lat, lng },
+  zoom: 14,
+  mapId: 'bf7d74e1b3d8abe39e15fb82' 
+});
+
+
       this.mainMap.setCenter({ lat, lng });
 
-      new google.maps.Marker({
+      const marker = new google.maps.marker.AdvancedMarkerElement({
         position: { lat, lng },
-        map: this.mainMap,
-        label: 'Você',
+        map: this.mainMap, 
+        title: "Você"
       });
 
       this.localizacaoAtual = { lat, lng };
@@ -271,6 +304,7 @@ initMainMap(): void {
     }
   );
 }
+
 
 
   initModalMap(): void {
@@ -321,13 +355,30 @@ this.marker = new google.maps.marker.AdvancedMarkerElement({
     this.selectedLocation = { lat, lng };
   }
 
+iniciarEnvioContinuoLocalizacao(usuarioID: string): void {
+  console.log("⏱️ Iniciando envio contínuo de localização para:", usuarioID);
+
+  setInterval(() => {
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+
+        this.mainService.enviarConsultaUsuario(usuarioID, lat, lng);
+      },
+      (error) => {
+        console.error('❌ Erro ao obter localização:', error);
+      },
+      { enableHighAccuracy: true }
+    );
+  }, 60000);
+}
+
+
 
 EnviarNotificacao(usuario: UsuarioModel) {
   const id = this.AppService.usuarioAutenticado?.usuarioID;
-
-    console.log('ID:', id);
-
-    console.log('Usuario autenticado:', this.AppService.usuarioAutenticado);
 
   if (!id) {
     this.AppService.MostrarAlerta('ID do usuário não encontrado', this.AlertypesEnum.Not_OK);
@@ -339,12 +390,18 @@ EnviarNotificacao(usuario: UsuarioModel) {
   this.mainService.atualizarDesejarNotificacao(id, usuario.desejaNotificacao).subscribe({
     next: () => {
       this.AppService.MostrarAlerta('Você receberá informações via WhatsApp', this.AlertypesEnum.OK);
+
+      // Inicia o envio contínuo
+      if (this.desejaNotificacao) {
+        this.iniciarEnvioContinuoLocalizacao(usuario.usuarioID.toString());
+      }
     },
     error: () => {
       this.AppService.MostrarAlerta('Não foi possível habilitar notificações', this.AlertypesEnum.Not_OK);
     }
   });
 }
+
 
 
 

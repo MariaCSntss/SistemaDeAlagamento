@@ -1,7 +1,7 @@
 export class AppValidations {
 
     public nomeValido(nome :string) : boolean{
-        const regex = /^[\p{L}\s]{2,15}$/u;
+        const regex = /^[\p{L}\s]{2,50}$/u;
         return regex.test(nome)
     }
     public sobrenomeValido(sobrenomne :string) : boolean{

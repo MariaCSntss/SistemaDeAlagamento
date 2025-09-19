@@ -132,7 +132,7 @@
   }
    .container > .create-container{
       display: grid;
-      grid-template-columns: 1fr 1fr; /* Duas colunas de largura igual */
+      grid-template-columns: 1fr 1fr; 
       justify-items: center;
       align-items: center;
       gap: 10px;
@@ -147,7 +147,7 @@
   .container{
     flex-direction: row;
     align-items: start;
-    height: 94vh;
+    height: 94dvh;
   }
   .container .instrucao-container{
     border-radius: 50px 50px 60px 50px;

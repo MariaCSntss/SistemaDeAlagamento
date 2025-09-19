@@ -1,61 +1,61 @@
 {
-  "hash": "2cd9aebb",
+  "hash": "501aa620",
   "configHash": "877a045f",
-  "lockfileHash": "21fbccd1",
-  "browserHash": "cbc98358",
+  "lockfileHash": "287c7c2a",
+  "browserHash": "a77907fa",
   "optimized": {
     "@angular/common": {
       "src": "../../../../../../node_modules/@angular/common/fesm2022/common.mjs",
       "file": "@angular_common.js",
-      "fileHash": "c691a8a7",
+      "fileHash": "9b164a13",
       "needsInterop": false
     },
     "@angular/common/http": {
       "src": "../../../../../../node_modules/@angular/common/fesm2022/http.mjs",
       "file": "@angular_common_http.js",
-      "fileHash": "17545ea0",
+      "fileHash": "b6423392",
       "needsInterop": false
     },
     "@angular/core": {
       "src": "../../../../../../node_modules/@angular/core/fesm2022/core.mjs",
       "file": "@angular_core.js",
-      "fileHash": "a13c04ca",
+      "fileHash": "b116ddb0",
       "needsInterop": false
     },
     "@angular/forms": {
       "src": "../../../../../../node_modules/@angular/forms/fesm2022/forms.mjs",
       "file": "@angular_forms.js",
-      "fileHash": "cebe7b1a",
+      "fileHash": "d042fe16",
       "needsInterop": false
     },
     "@angular/platform-browser": {
       "src": "../../../../../../node_modules/@angular/platform-browser/fesm2022/platform-browser.mjs",
       "file": "@angular_platform-browser.js",
-      "fileHash": "2687252c",
+      "fileHash": "a752d644",
       "needsInterop": false
     },
     "@angular/router": {
       "src": "../../../../../../node_modules/@angular/router/fesm2022/router.mjs",
       "file": "@angular_router.js",
-      "fileHash": "03a7c342",
+      "fileHash": "c41d7303",
       "needsInterop": false
     },
     "lightning-tec-br-angular-components": {
       "src": "../../../../../../node_modules/lightning-tec-br-angular-components/fesm2022/lightning-tec-br-angular-components.mjs",
       "file": "lightning-tec-br-angular-components.js",
-      "fileHash": "1a9994b4",
+      "fileHash": "581b45d8",
       "needsInterop": false
     },
     "ngx-mask": {
       "src": "../../../../../../node_modules/ngx-mask/fesm2022/ngx-mask.mjs",
       "file": "ngx-mask.js",
-      "fileHash": "c34c96d8",
+      "fileHash": "ae7215e9",
       "needsInterop": false
     },
     "rxjs": {
       "src": "../../../../../../node_modules/rxjs/dist/esm5/index.js",
       "file": "rxjs.js",
-      "fileHash": "52258d29",
+      "fileHash": "fb5dc1b5",
       "needsInterop": false
     }
   },

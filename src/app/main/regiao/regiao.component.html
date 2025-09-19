@@ -1,37 +1,36 @@
 <div class="container">
+  <app-button [name]="'voltar'"></app-button>
 
-    <app-button [name]="'voltar'"></app-button>
 
-  <!-- Mapa -->
-  <div class="mapa">
-    <div id="map" style="height: 300px; width: 100%;"></div>
+  <div class="map-wrapper">
+    <div id="map"></div>
+
+
+    <div class="loading-overlay" *ngIf="carregando">
+      <div class="spinner"></div>
+      <p>Carregando informações...</p>
+    </div>
   </div>
 
+  <!-- Conteúdo mostrado somente quando dados carregados -->
+  <div class="carregando" *ngIf="!carregando">
+    <p><strong>Região do usuário:</strong> {{ nomeRegiaoUsuario }}</p>
+    <p><strong>Região do Esp32:</strong> {{ nomeRegiaoEsp }}</p>
+    <p><strong>Distância até o sensor:</strong> {{ formatarDistancia(distanciaMetros) }}</p>
 
-  <!-- Nome da região e distância -->
-  <p><strong>Região do usuário:</strong> {{ nomeRegiaoUsuario }}</p>
-  <p><strong>Região do Esp32:</strong> {{ nomeRegiaoEsp }}</p>
-  <p><strong>Distância até o sensor:</strong> {{ formatarDistancia(distanciaMetros) }} metros</p>
+    <p><strong>Dados dos sensores:</strong></p>
+    <div class="dados" *ngFor="let sensor of dados">
+      <p>
+        - {{ sensor.tipo === 'Pluviométrico' ? 'Medidor' : 'Sensor de ' + sensor.tipo }}:
+        {{ sensor.valor + ' (' + sensor.unidadeMedida + ')' }}
+      </p>
+    </div>
 
-  <!-- Dados dos sensores -->
-  <p><strong>Dados dos sensores:</strong></p>
-
-<div class="dados" *ngFor="let sensor of dados">
-  <p>- Sensor de {{ sensor.tipo }}: {{ sensor.valor + ' ' + '(' + sensor.unidadeMedida + ')' }} </p>
-</div>
-
- 
-
-  <!-- Probabilidade -->
-  <div class="probabilidade">
-    <h3>Probabilidade de Alagamento:</h3>
-    <h1>{{probabilidade }}%</h1>
+    <div class="probabilidade">
+      <h3>Probabilidade de Alagamento:</h3>
+      <h1>{{ probabilidade }}%</h1>
+    </div>
   </div>
-
-
-
 </div>
-
-
 
 <app-alert></app-alert>

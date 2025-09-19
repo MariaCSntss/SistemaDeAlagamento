@@ -18,6 +18,6 @@ export class CreateAccountService{
             })
           }
           return this.http
-          .post<string>(`https://${this.AppService.apiDomain}/Usuarios/post`,user,httpOptions)
+          .post<string>(`${this.AppService.apiDomain}/Usuarios/post`,user,httpOptions)
       }
 }
