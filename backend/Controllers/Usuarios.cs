@@ -1,5 +1,6 @@
 using backend.Models;
 using backend.Services;
+using DocumentFormat.OpenXml.Math;
 using lightning_core_api.Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +18,8 @@ namespace backend.Controllers {
         private readonly EmailService _emailService;
         private readonly UsersServices _usersServices;
         private readonly MapsService _mapsService;
-         private readonly VerificacaoService _verificacao;
+        private readonly VerificacaoService _verificacao;
+        private readonly WhatsappService _whatsappService;
 
 
     public Usuarios(Context context, EmailService emailService) {
@@ -36,7 +38,14 @@ namespace backend.Controllers {
             public string Senha { get; set; }
         }
 
-        [HttpPut("enviar-notificacao")]
+    public class LocalizacaoUsuarioDTO {
+      public int UsuarioId { get; set; }
+      public double Latitude { get; set; }
+      public double Longitude { get; set; }
+    }
+
+
+    [HttpPut("enviar-notificacao")]
         public async Task<IActionResult> EnviarNotificacao([FromForm] int usuarioId, [FromForm] bool desejaNotificacao) {
 
             var usuario = await _context.Usuarios.FindAsync(usuarioId);
@@ -81,50 +90,73 @@ namespace backend.Controllers {
 
         }
 
-        [HttpPost("post")]
-        public async Task<IActionResult> CriarUsuario([FromBody] Usuario novoUsuario) {
-            if (!_regexServices.apenasTextoValido(novoUsuario.NomeCompleto, 100))
-                return BadRequest(new { message = "Primeiro nome inválido" });
 
 
-            if (!_regexServices.emailValido(novoUsuario.Email))
-                return BadRequest(new { message = "Email inválido" });
+    [HttpPost("post")]
+    public async Task<IActionResult> CriarUsuario([FromBody] Usuario novoUsuario) {
+      try {
+        if (!_regexServices.apenasTextoValido(novoUsuario.NomeCompleto, 100))
+          return BadRequest(new { message = "Primeiro nome inválido" });
 
-            if (!_regexServices.senhaValida(novoUsuario.Senha))
-                return BadRequest(new { message = "Senha inválida" });
+        if (!_regexServices.emailValido(novoUsuario.Email))
+          return BadRequest(new { message = "Email inválido" });
 
-            if (!_regexServices.apenasNumerosValido(novoUsuario.Celular, 20))
-                return BadRequest(new { message = "Celular inválido" });
+        if (!_regexServices.senhaValida(novoUsuario.Senha))
+          return BadRequest(new { message = "Senha inválida" });
 
-            novoUsuario.DesejaNotificacao = false;
-            novoUsuario.recebeuNotificacao = 0;
+        if (!_regexServices.apenasNumerosValido(novoUsuario.Celular, 20))
+          return BadRequest(new { message = "Celular inválido" });
+
+        novoUsuario.DesejaNotificacao = false;
+        novoUsuario.recebeuNotificacao = 0;
+
+        bool existe = await _context.Usuarios.AnyAsync(u => u.Email == novoUsuario.Email.ToLower());
+        if (existe)
+          return BadRequest(new { message = "Email já cadastrado" });
+
+        novoUsuario.Email = novoUsuario.Email.ToLower();
+        novoUsuario.Senha = _criptografiaService.Encriptar(novoUsuario.Senha);
+
+        _context.Usuarios.Add(novoUsuario);
+        await _context.SaveChangesAsync();
+
+        return Ok(new { message = "Usuário criado com sucesso" });
+      }
+      catch (Exception ex) {
+        return StatusCode(500, new {
+          message = "Erro interno no servidor",
+          detalhe = ex.Message,
+          inner = ex.InnerException?.Message,
+          stack = ex.StackTrace
+        });
+      }
+
+    }
 
 
-            bool existe = await _context.Usuarios.AnyAsync(u => u.Email == novoUsuario.Email.ToLower());
-
-            if (existe)
-                return BadRequest(new { message = "Email já cadastrado" });
-
-            novoUsuario.Email = novoUsuario.Email.ToLower();
-            novoUsuario.Senha = _criptografiaService.Encriptar(novoUsuario.Senha);
-
-
-            _context.Usuarios.Add(novoUsuario);
-            await _context.SaveChangesAsync();
-
-            return Ok(new { message = "Usuário criado com sucesso" });
-        }
-
-    [HttpPost("verificar")]
+    [HttpGet("verificar")]
     public async Task<IActionResult> Verificar() {
       await _verificacao.VerificarUsuariosProximosAsync();
       return Ok("Verificação finalizada.");
     }
 
+    [HttpGet("obter/{usuarioId}")]
+    public async Task<IActionResult> ObterUsuario(int usuarioId) {
+      var usuario = await _context.Usuarios.FindAsync(usuarioId);
+      if (usuario == null)
+        return NotFound();
+
+      return Ok(new {
+        usuarioId = usuario.UsuarioId,
+        desejaNotificacao = usuario.DesejaNotificacao,
+        // outros campos se quiser
+      });
+    }
+
 
 
     [HttpGet("get")]
-        [Authorize(Roles = "Admin")]
+     
         public async Task<IActionResult> GetUsuarios() {
             var usuarios = await _context.Usuarios.ToListAsync();
             usuarios.ForEach(u => u.Senha = null);
@@ -145,7 +177,7 @@ namespace backend.Controllers {
         }
 
         [HttpPut("put")]
-        [Authorize(Roles = "Admin")]
+    
         public async Task<IActionResult> EditarUsuario([FromBody] Usuario usuarioEditado) {
             var usuario = await _context.Usuarios.FindAsync(usuarioEditado.UsuarioId);
             if (usuario == null)
@@ -160,5 +192,63 @@ namespace backend.Controllers {
             await _context.SaveChangesAsync();
             return Ok(new { message = "Usuário atualizado com sucesso" });
         }
+    [HttpPost("verificar-localizacoes")]
+    public async Task<IActionResult> VerificarLocalizacoesAsync() {
+      const double RAIO_METROS = 2000;
+      const int PROB_LIMITE = 70;
+
+      var usuarios = await _context.Usuarios
+          .Where(u => u.DesejaNotificacao == true)
+          .ToListAsync();
+
+      // Inclui localização dos dispositivos via join
+      var dispositivosComLocal = await _context.Dispositivos
+          .Include(d => d.Localizacao)
+          .Where(d => d.Localizacao.Latitude != 0 && d.Localizacao.Longitude != 0)
+          .ToListAsync();
+
+      if (!usuarios.Any() || !dispositivosComLocal.Any())
+        return Ok("Sem usuários ou dispositivos com localização válida.");
+
+      foreach (var usuario in usuarios) {
+        var ultimaConsulta = await _context.ConsultaUsuarioAlagamentos
+            .Where(c => c.UsuarioFk == usuario.UsuarioId)
+            .OrderByDescending(c => c.DataConsulta)
+            .FirstOrDefaultAsync();
+
+        if (ultimaConsulta == null || ultimaConsulta.Latitude == 0 || ultimaConsulta.Longitude == 0)
+          continue;
+
+        foreach (var dispositivo in dispositivosComLocal) {
+          var loc = dispositivo.Localizacao;
+
+          var distancia = _mapsService.CalcularDistancia(
+              ultimaConsulta.Latitude, ultimaConsulta.Longitude,
+              loc.Latitude, loc.Longitude);
+
+          if (distancia <= RAIO_METROS) {
+            var dados = _mapsService.ObterDadosSensores(dispositivo.DispositivoId, _context);
+
+            int prob = (int)dados.GetType().GetProperty("probabilidadeAlagamento")?.GetValue(dados) ;
+
+            if (prob >= PROB_LIMITE) {
+              await _whatsappService.EnviarMensagem(usuario.Celular,
+                  $"🚨 Alerta de Alagamento 🚨\nVocê está em uma área de risco!\nProbabilidade: {prob}%");
+
+              // Log opcional
+              Console.WriteLine($"✅ Alerta enviado para {usuario.Celular} com {prob}% (distância: {Math.Round(distancia)}m)");
+            }
+          }
+        }
+      }
+
+      return Ok("Verificação finalizada.");
     }
+
+
+
+
+  }
+
+
 }

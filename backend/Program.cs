@@ -49,6 +49,10 @@ namespace backend {
             }
 
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddScoped<VerificacaoService>();
+            builder.Services.AddHttpClient<WhatsappService>();
+            builder.Services.AddHostedService<NotificacaoService>();
+            builder.Services.AddScoped<MapsService>();
             builder.Services.AddScoped<EmailService>();
             builder.Services.AddCors(options => {
                 options.AddPolicy(name: "prod", policy => {
@@ -95,7 +99,7 @@ namespace backend {
 
             builder.Services.AddAuthorization();
             builder.Services.AddControllers();
-            builder.Services.AddScoped<MapsService>();
+
 
             // 1) Configura o serializador JSON para emitir enums como strings
             builder.Services.AddControllers()
@@ -149,7 +153,9 @@ namespace backend {
                     break;
             }
 
-      builder.Services.AddHttpClient<WhatsappService>();
+
+
+
 
       builder.Services.AddEntityFrameworkSqlServer()
             .AddDbContext<Context>(options =>
@@ -163,16 +169,6 @@ namespace backend {
             );
 
 
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("CorsPolicy", builder =>
-                {
-                    builder.AllowAnyOrigin()
-                           .AllowAnyMethod()
-                           .AllowAnyHeader();
-                });
-            });
-
 
             Program.secretKey = builder.Configuration["jwt:secretKey"];
             Program.issuer = builder.Configuration["jwt:issuer"];
@@ -180,13 +176,6 @@ namespace backend {
             Program.durationUserToken = double.Parse(builder.Configuration["jwt:tokenValidityMins_User"]);
             Program.durationDataCollectorToken = double.Parse(builder.Configuration["jwt:tokenValidityMins_DataCollector"]);
             Program.durationEmailValidationToken = double.Parse(builder.Configuration["jwt:tokenValidityMins_EmailValidation"]);
-            builder.WebHost.ConfigureKestrel(options =>
-            {
-                options.ListenAnyIP(7012, listenOptions =>
-                {
-                    listenOptions.UseHttps(); // usa certificado de dev (ou personalizado se quiser)
-                });
-            });
 
 
             var app = builder.Build();
@@ -204,10 +193,11 @@ namespace backend {
                 case ENV_TYPE.Development:
                     app.UseCors("dev");
                     break;
-                case ENV_TYPE.Production:
-                    app.UseCors("prod");
-                    break;
-                case ENV_TYPE.Local_Development:
+        case ENV_TYPE.Production:
+          app.UseCors("prod");
+          break;
+
+        case ENV_TYPE.Local_Development:
                     app.UseCors("dev");
                     break;
                 default:

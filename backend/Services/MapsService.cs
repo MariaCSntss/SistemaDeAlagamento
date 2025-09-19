@@ -1,4 +1,4 @@
-﻿using backend.Models;
+using backend.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace backend.Services {
@@ -30,61 +30,64 @@ namespace backend.Services {
                 .Include(s => s.LeituraHistoricos)
                 .ToList();
 
-            double? nivelAgua = sensores.FirstOrDefault(s => s.Tipo == "nível")
+            double? temperatura = sensores.FirstOrDefault(s => s.Tipo == "Temperatura")
                 ?.LeituraHistoricos?
                 .OrderByDescending(l => l.DataHoraLeitura)
                 .FirstOrDefault()?.ValorMedido;
 
-            double? vasao = sensores.FirstOrDefault(s => s.Tipo == "vazao")
+      double? umidade = sensores.FirstOrDefault(s => s.Tipo == "Umidade")
+               ?.LeituraHistoricos?
+               .OrderByDescending(l => l.DataHoraLeitura)
+               .FirstOrDefault()?.ValorMedido;
+
+      double? nivel = sensores.FirstOrDefault(s => s.Tipo == "Nível")
                 ?.LeituraHistoricos?
                 .OrderByDescending(l => l.DataHoraLeitura)
                 .FirstOrDefault()?.ValorMedido;
 
-            double? precipitacao = sensores.FirstOrDefault(s => s.Tipo == "precipitacao")
+            double? pluviometrico = sensores.FirstOrDefault(s => s.Tipo == "Pluviométrico")
                 ?.LeituraHistoricos?
                 .OrderByDescending(l => l.DataHoraLeitura)
                 .FirstOrDefault()?.ValorMedido;
 
-            double? umidade = sensores.FirstOrDefault(s => s.Tipo == "umidade")
-                ?.LeituraHistoricos?
-                .OrderByDescending(l => l.DataHoraLeitura)
-                .FirstOrDefault()?.ValorMedido;
+;
 
             return new {
-                nivelAgua = nivelAgua ?? 0,
-                vasao = vasao ?? 0,
-                precipitacao = precipitacao ?? 0,
-                umidadeSolo = umidade ?? 0,
-                probabilidadeAlagamento = CalcularProbabilidade(nivelAgua, vasao, precipitacao, umidade)
+                temperatura = temperatura ?? 0,
+                umidade = umidade ?? 0,
+                nivel = nivel ?? 0,
+                pluviometrico = pluviometrico ?? 0,
+                probabilidadeAlagamento = CalcularProbabilidade(temperatura, umidade, nivel, pluviometrico)
             };
         }
 
-        public int CalcularProbabilidade(double? nivel, double? vasao, double? precipitacao, double? umidade) {
+        public int CalcularProbabilidade(double? T, double? U, double? N, double? P) {
 
             // Define limites de risco, acima desse valor é considerado crítico
-            double nivelMax = 50.0;       // 100 cm = risco crítico
-            double vasaoMax = 10.0;        // 50 L/s (ajustável)
-            double precipitacaoMax = 10.0; // 80 mm em 24h
-            double umidadeMax = 20.0;     // %
+            double TMax = 50.0;      
+            double UMax = 50.0;      
+            double NMax = 10.0;       
+            double PMax = 10.0; 
+         
 
             // Trazendo os valores para uma mesma escala (entre 0 e 1 ) 
-            double nivelNorm = Math.Min((nivel ?? 0) / nivelMax, 1.0);
-            double vasaoNorm = Math.Min((vasao ?? 0) / vasaoMax, 1.0);
-            double precipitacaoNorm = Math.Min((precipitacao ?? 0) / precipitacaoMax, 1.0);
-            double umidadeNorm = Math.Min((umidade ?? 0) / umidadeMax, 1.0);
+            double tempNorm = Math.Min((T ?? 0) / TMax, 1.0);
+            double umidNorm = Math.Min((U ?? 0) / UMax, 1.0);
+            double nivelNorm = Math.Min((N ?? 0) / NMax, 1.0);
+            double pluviNorm = Math.Min((P?? 0) / PMax, 1.0);
 
             // Pesos (baseados na influência no alagamento)
-            double pesoNivel = 0.4;
-            double pesoVasao = 0.2;
-            double pesoPrecipitacao = 0.25;
-            double pesoUmidade = 0.15;
+            double pesoT= 0.4;
+            double pesoU = 0.15;
+            double pesoN = 0.2;
+            double pesoP = 0.25;
 
-            // Cálculo da pontuação
-            double score =
-                nivelNorm * pesoNivel +
-                vasaoNorm * pesoVasao +
-                precipitacaoNorm * pesoPrecipitacao +
-                umidadeNorm * pesoUmidade;
+      // Cálculo da pontuação
+      double score =
+          tempNorm * pesoT +
+          nivelNorm * pesoN +
+          pluviNorm * pesoP +
+          umidNorm * pesoU;
 
             return (int)(score * 100);
         }

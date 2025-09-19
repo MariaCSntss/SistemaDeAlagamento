@@ -1,4 +1,4 @@
-﻿using backend.Models;
+using backend.Models;
 using backend.Services;
 using lightning_core_api.Core.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -15,55 +15,76 @@ namespace backend.Controllers {
         public Sensores(Context context) {
             _context = context;
         }
-        [HttpPost("enviar-leitura")]
-        public async Task<IActionResult> EnviarLeitura([FromBody] LeituraDTO leitura) {
-            if (leitura == null)
-                return BadRequest("Dados inválidos");
 
-            var novaLeitura = new LeituraHistorico {
-                SensorFk = leitura.SensorID,
-                ValorMedido = leitura.ValorMedido,
-                DataHoraLeitura = DateTime.Now,
-            };
+    public class LeituraDTO {
+      public int SensorID { get; set; }
+      public double ValorMedido { get; set; }
+      public double LatitudeUsuario { get; set; }
+      public double LongitudeUsuario { get; set; }
+    }
 
-            _context.LeituraHistoricos.Add(novaLeitura);
-            await _context.SaveChangesAsync();
+    [HttpPost("enviar-leitura")]
+    public async Task<IActionResult> EnviarLeitura([FromBody] LeituraDTO leitura) {
+      if (leitura == null)
+        return BadRequest("Dados inválidos");
 
-            return Ok(new { mensagem = "Leitura recebida com sucesso!" });
-        }
+      var leituraExistente = await _context.LeituraHistoricos
+          .FirstOrDefaultAsync(l => l.SensorFk == leitura.SensorID);
 
-        [HttpGet("dados-sensores")]
+      if (leituraExistente != null) {
+        leituraExistente.ValorMedido = leitura.ValorMedido;
+        leituraExistente.DataHoraLeitura = DateTime.Now;
+        _context.LeituraHistoricos.Update(leituraExistente);
+      }
+      else {
+        var novaLeitura = new LeituraHistorico {
+          SensorFk = leitura.SensorID,
+          ValorMedido = leitura.ValorMedido,
+          DataHoraLeitura = DateTime.Now
+        };
+        _context.LeituraHistoricos.Add(novaLeitura);
+      }
+
+      await _context.SaveChangesAsync();
+
+      return Ok(new { mensagem = "Leitura registrada!" });
+    }
+
+
+    [HttpGet("dados-sensores")]
         public IActionResult ObterDadosSensoresPorDispositivo(int dispositivoId) {
             var sensores = _context.Sensors
                 .Where(s => s.DispositivoFk == dispositivoId)
                 .Include(s => s.LeituraHistoricos)
                 .ToList();
 
-            double? nivel = sensores.FirstOrDefault(s =>
-                    s.Tipo.Equals("nível", StringComparison.OrdinalIgnoreCase))
+            double? T = sensores.FirstOrDefault(s =>
+                    s.Tipo.Equals("Temperatura", StringComparison.OrdinalIgnoreCase))
                 ?.LeituraHistoricos?
                 .OrderByDescending(l => l.DataHoraLeitura)
                 .FirstOrDefault()?.ValorMedido;
 
-            double? vasao = sensores.FirstOrDefault(s =>
-                    s.Tipo.Equals("vazão", StringComparison.OrdinalIgnoreCase))
+      double? U = sensores.FirstOrDefault(s =>
+                   s.Tipo.Equals("Umidade", StringComparison.OrdinalIgnoreCase))
+               ?.LeituraHistoricos?
+               .OrderByDescending(l => l.DataHoraLeitura)
+               .FirstOrDefault()?.ValorMedido;
+
+      double? N = sensores.FirstOrDefault(s =>
+                    s.Tipo.Equals("Nível", StringComparison.OrdinalIgnoreCase))
                 ?.LeituraHistoricos?
                 .OrderByDescending(l => l.DataHoraLeitura)
                 .FirstOrDefault()?.ValorMedido;
 
-            double? precipitacao = sensores.FirstOrDefault(s =>
-                    s.Tipo.Equals("precipitacao", StringComparison.OrdinalIgnoreCase))
+            double? P = sensores.FirstOrDefault(s =>
+                    s.Tipo.Equals("Pluviométrico", StringComparison.OrdinalIgnoreCase))
                 ?.LeituraHistoricos?
                 .OrderByDescending(l => l.DataHoraLeitura)
                 .FirstOrDefault()?.ValorMedido;
 
-            double? umidade = sensores.FirstOrDefault(s =>
-                    s.Tipo.Equals("umidade", StringComparison.OrdinalIgnoreCase))
-                ?.LeituraHistoricos?
-                .OrderByDescending(l => l.DataHoraLeitura)
-                .FirstOrDefault()?.ValorMedido;
+            
 
-            int probabilidade = new MapsService().CalcularProbabilidade(nivel, vasao, precipitacao, umidade);
+            int probabilidade = new MapsService().CalcularProbabilidade(T,U, N, P);
 
             var lista = new List<object>();
             foreach (var sensor in sensores) {

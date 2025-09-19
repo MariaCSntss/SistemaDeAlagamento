@@ -1,4 +1,4 @@
-﻿using backend.Models;
+using backend.Models;
 using backend.Services;
 using lightning_core_api.Core.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -18,7 +18,14 @@ namespace backend.Controllers {
                 _mapsService = mapsService;
             }
 
-            [HttpGet("mais-proximo")]
+    public class LocalizacaoDTO {
+      public int LocalizacaoID { get; set; }      // ID que já existe na tabela
+      public double Latitude { get; set; }
+      public double Longitude { get; set; }
+    }
+
+
+    [HttpGet("mais-proximo")]
             public IActionResult GetSensorMaisProximo(double lat, double lng) {
 
             var sensores = _context.Dispositivos
@@ -62,11 +69,28 @@ namespace backend.Controllers {
 
             }) ;
             }
-        }
+
+    [HttpPost("atualizar-localizacao")]
+    public async Task<IActionResult> AtualizarLocalizacao([FromBody] LocalizacaoDTO dto) {
+      // Busca pelo ID informado
+      var localizacao = await _context.Localizacaos.FindAsync(dto.LocalizacaoID);
+      if (localizacao == null)
+        return NotFound("Localização não encontrada");
+
+      // Atualiza os campos
+      localizacao.Latitude = dto.Latitude;
+      localizacao.Longitude = dto.Longitude;
+      await _context.SaveChangesAsync();
+
+      return Ok("Localização atualizada com sucesso!");
+    }
+  }
+
+
+
     }
 
 
         
 
 
-    
