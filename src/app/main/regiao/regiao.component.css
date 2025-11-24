@@ -19,6 +19,11 @@ h1,h2,h3,p,a{
   
 }
 
+.container > .carregando {
+    margin-left: 30px;
+    
+}
+
 .container > .carregando > p {
     font-family: 'CoreFont';
     font-size: 15px;
@@ -86,4 +91,11 @@ app-button {
 
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+@media only screen and (max-width: 700px) {
+.container > .carregando {
+    margin-left: 0px;
+    
+}
 }

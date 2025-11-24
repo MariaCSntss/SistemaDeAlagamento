@@ -1,43 +1,64 @@
+/* rgb(140, 0, 0) */
+/* rgb(206, 153, 8) */
+
 .container{
-    width: 100dvw;
+    width: 100vw;
     display: flex;
     align-items: center;
     justify-content: center;
     position: fixed;
-    top: 130px;
+    top: 50px;
+    z-index: 99999;
+}
+.animation-on{
+    animation: slide 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+@keyframes slide{
+    0%{
+        transform: translateY(-1000px);
+    }
+    100%{
+        transform: translateY(0px);
+    }
 }
 .container > div{
+    box-shadow: 1px 1px 2px 0px rgba(0, 0, 0, 0.69);
+}
+.container > div > div{
     display: flex;
-   flex-direction: row-reverse;
+    flex-direction: row-reverse;
     padding: 10px 10px;
     border-radius: 10px;
     box-sizing: border-box;
-    max-width: 70%;
-    max-height: 100px;
-
 }
-.container > div > .container-close{
+.container > div > div >.container-close{
     display: flex;
     justify-content: flex-start;
     margin-left: 10px;
 }
-.container > div > .container-close > i{
+.container > div > div >.container-close > i{
     cursor: pointer;
     padding: 4px;
     transform: translate(8px,-8px);
 }
-.container > div > .container-text{
+.container > div > div >.container-text{
     display: flex;
      padding-top: 10px;
 }
-.container > div > .container-text > i{
+.container > div > div >.container-text > i{
     line-height: 0px;
     transform: translateY(2px);
     font-size: 18px;
     margin-right: 7px;
 }
-.container > div > .container-text > p{
+.container > div > div > .container-text > p{
     font-family: 'roboto';
     font-weight: 400;
     font-size: 18px;
+}
+.container > div > .progress-bar{
+    background-color: white;
+    margin: 0px;
+    padding: 0px;
+    height: 2px;
 }

@@ -5,12 +5,13 @@ import { RouterOutlet } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { timeout } from 'rxjs';
 import { ENV_TYPE } from './app.enum';
+import { AlertComponent } from "./alert/alert.component";
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, AlertComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

@@ -1,3 +1,92 @@
+<section 
+  class="aside-background"
+  [style.display]="asideIsVisible ? '' : 'none'"
+></section>
+
+<aside 
+  class="form-usuario"
+  [class.animation-slide-down]="asideIsVisible"
+  [class.animation-slide-up]="!asideIsVisible"
+  [style.display]="asideDisplayOn ? '' : 'none'"
+  (animationend)="onAnimationEnd($event)"
+>
+  <header>
+    <div class="title-container">
+      <i class="{{ IconsEnum.Users }}"></i>
+      <h1>Cadastrar Usuario</h1>
+    </div>
+    <i (click)="onClose()" class="{{ IconsEnum.Close }}"></i>
+  </header>
+
+  <main>
+    <div class="field-container">
+      <p class="labels">Nome</p>
+      <app-form-field id="nome" [Name]="'createClienteNome'" />
+      <div [style.display]="clienteNomeValidacaoVisible ? '' : 'none'">
+        <p class="N_Caracteres">{{ clienteNomeNCaracteres.toString() }}/20</p>
+        <i
+          [style.color]="clienteNomeValido ? 'green' : 'red'"
+          class="{{ clienteNomeValido ? IconsEnum.Done_OutLine : IconsEnum.Alert }}"
+        ></i>
+        <p [style.color]="clienteNomeValido ? 'green' : 'red'">
+          {{ clienteNomeValido ? 'Ok' : 'Nome Inválido' }}
+        </p>
+      </div>
+    </div>
+
+    <div class="field-container">
+      <p class="labels">Sobrenome</p>
+      <app-form-field id="nome" [Name]="'createClienteSobrenome'" />
+      <div [style.display]="clienteSobrenomeValidacaoVisible ? '' : 'none'">
+        <p class="labels">Sobrenome</p>
+        <p class="N_Caracteres">{{ clienteSobrenomeNCaracteres.toString() }}/30</p>
+        <i
+          [style.color]="clienteSobrenomeValido ? 'green' : 'red'"
+          class="{{ clienteSobrenomeValido ? IconsEnum.Done_OutLine : IconsEnum.Alert }}"
+        ></i>
+        <p [style.color]="clienteSobrenomeValido ? 'green' : 'red'">
+          {{ clienteSobrenomeValido ? 'Ok' : 'Sobrenome Inválido' }}
+        </p>
+      </div>
+    </div>
+
+    <div class="field-container">
+      <p class="labels">Email</p>
+      <app-form-field [Name]="'createClienteEmail'" />
+      <div [style.display]="emailValidacaoVisible ? '' : 'none'">
+        <p class="N_Caracteres">{{ emailNCaracteres.toString() }}/40</p>
+        <i
+          [style.color]="emailValido ? 'green' : 'red'"
+          class="{{ emailValido ? IconsEnum.Done_OutLine : IconsEnum.Alert }}"
+        ></i>
+        <p [style.color]="emailValido ? 'green' : 'red'">
+          {{ emailValido ? 'Ok' : 'Email Inválido' }}
+        </p>
+      </div>
+    </div>
+
+    <div class="field-container">
+      <p class="labels">Celular</p>
+      <app-form-field [Name]="'createClienteCelular'" />
+      <div [style.display]="celularValidacaoVisible ? '' : 'none'">
+        <p class="N_Caracteres">{{ celularNCaracteres.toString() }}/11</p>
+        <i
+          [style.color]="celularValido ? 'green' : 'red'"
+          class="{{ celularValido ? IconsEnum.Done_OutLine : IconsEnum.Alert }}"
+        ></i>
+        <p [style.color]="celularValido ? 'green' : 'red'">
+          {{ celularValido ? 'Ok' : 'Celular Inválido' }}
+        </p>
+      </div>
+    </div>
+
+    <div class="btns-container">
+      <app-button [name]="'criarCliente'" class="criarCliente"></app-button>
+    </div>
+  </main>
+</aside>
+
+
 <div class="container">
   <div class="container-logo">
     <img src="/assets/logos/logo.png" />
@@ -8,23 +97,23 @@
     <!-- Mapa principal -->
     <div id="main-map" ></div>
     
-<div class="check-box" *ngIf="!desejaNotificacao">
+<div class="check-box" *ngIf="!marcouCheckBox && !desejaNotificacaoConfirmado">
   <input type="checkbox" (click)="toggleCheckBox()" />
   <p>Desejo receber notificações quando estiver em área de risco</p>
 </div>
 
-<div *ngIf="desejaNotificacao" class="check-box-ativada" style="color: green; font-weight: bold;">
+
+<div *ngIf="desejaNotificacaoConfirmado" class="check-box-ativada" style="color: green; font-weight: bold;">
   ✅ Notificações ativadas!
 </div>
 
 
-    <!-- Botões abaixo do mapa -->
+
     <div class="botoes" >
       <app-button [name]="'selecionarArea'"></app-button>
       <app-button [name]="'areaSelecionada'"></app-button>
     </div>
 
-   <!-- Modal de seleção de área -->
 <div class="modal" [class.show]="mostrarModal">
 
 
@@ -43,7 +132,7 @@
 
     <div id="modal-map" ></div>
 
-    <div style="margin-top: 10px; text-align: center;">
+    <div class="botao-confirmar" style="margin-top: 10px; text-align: center;">
       <app-button [name]="'confirmarArea'"></app-button>
     </div>
   </div>
@@ -51,5 +140,5 @@
 
   </div>
 
-  <app-alert></app-alert>
 </div>
+

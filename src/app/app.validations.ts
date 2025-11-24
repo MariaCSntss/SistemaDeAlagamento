@@ -1,19 +1,31 @@
-export class AppValidations {
+export class AppValidations{
 
-    public nomeValido(nome :string) : boolean{
-        const regex = /^[\p{L}\s]{2,50}$/u;
+    public clienteNomeValido(nome :string) : boolean{
+        const regex = /^[\p{L}\s]{2,20}$/u;
         return regex.test(nome)
     }
-    public sobrenomeValido(sobrenomne :string) : boolean{
-        const regex = /^[\p{L}\s]{2,15}$/u;
-        return regex.test(sobrenomne)
+    public clienteSobrenomeValido(nome :string) : boolean{
+        const regex = /^[\p{L}\s]{2,30}$/u;
+        return regex.test(nome)
     }
-    public emailValido(email :string) : boolean{
+    public clienteEmailValido(email :string) : boolean{
         const regex = /^(?=.{1,40}$)[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/u;
         return regex.test(email)
     }
-    public celularValido(celular :string) : boolean{
+    public ClienteCelularValido(celular :string) : boolean{
         return celular.length == 11 ? true : false;
+    }
+    public clienteBairroValido(nome :string) : boolean{
+        const regex = /^[\p{L}\s]{2,20}$/u;
+        return regex.test(nome)
+    }
+    public clienteRuaValido(nome :string) : boolean{
+        const regex = /^[\p{L}\s]{2,40}$/u;
+        return regex.test(nome)
+    }
+    public clienteNumeroValido(nome :string) : boolean{
+        const regex = /^[\p{L}\s]{1,5}$/u;
+        return regex.test(nome)
     }
     public minimo8Max33(string :string) : boolean{
         const regex = /^.{8,33}$/u;

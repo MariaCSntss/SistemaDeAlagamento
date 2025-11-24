@@ -1,52 +1,60 @@
 import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AlertComponent } from "../../alert/alert.component";
 import { AppService } from '../../app.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { ButtonComponent } from "lightning-tec-br-angular-components";
-import { ConfigButtonsRegiao } from './config.buttons';
-import { ButtonService } from 'lightning-tec-br-angular-components';
+import { ConfigButtonsMain } from '../configButton';
 import { Subject, takeUntil, interval, Subscription } from 'rxjs';
+import * as lib from 'lightning-tec-br-angular-components'
+import { FormFieldConfigs } from '../config.formfields';
 
 
 @Component({
   selector: 'app-regiao',
   templateUrl: './regiao.component.html',
   styleUrls: ['./regiao.component.css'],
-  imports: [AlertComponent, CommonModule, ButtonComponent]
+  imports: [CommonModule, lib.ButtonComponent, lib.FormFieldComponent]
 })
 export class RegiaoComponent implements OnInit, OnDestroy {
   
 
+constructor (private route: ActivatedRoute, private ngZone: NgZone, private router: Router ) {}
 
-  constructor (private route: ActivatedRoute, private buttonService: ButtonService, private ngZone: NgZone, private router: Router ) {}
+destroy = new Subject<void>();
 
-  destroy = new Subject<void>();
+ngOnDestroy(): void {
+  this.destroy.next();
+}
   
-  ngOnDestroy(): void {
-    this.destroy.next();
-  }
-    
-  nomeRegiaoUsuario = '';
-  nomeRegiaoEsp = '';
-  geocoder!: google.maps.Geocoder;
-  distanciaMetros = 0;
-  dados: any;
-  mapa!: google.maps.Map;
-  dispositivoId: number = 0;
-  carregando: boolean = true;
+nomeRegiaoUsuario = '';
+nomeRegiaoEsp = '';
+geocoder!: google.maps.Geocoder;
+distanciaMetros = 0;
+dados: any;
+mapa!: google.maps.Map;
+dispositivoId: number = 0;
+carregando: boolean = true;
+FormFieldService = inject(lib.FormFieldService);
+ButtonService = inject(lib.ButtonService);
 
-  http = inject(HttpClient);
-  AppService = inject(AppService);
+readonly ButtonTypes = lib.ButtonTypeEnum;
+readonly ButtonIconPositions = lib.ButtonIconPositionEnum;
 
-  markerUsuario!: any;
-  markerESP!: any;
-  linha!: google.maps.Polyline;
-  configButtons = new ConfigButtonsRegiao();
-  probabilidade: number | null = null;
-  pollingSub!: Subscription;
-  localizacaoAtual!: GeolocationPosition;
+
+http = inject(HttpClient);
+AppService = inject(AppService);
+
+markerUsuario!: any;
+markerESP!: any;
+linha!: google.maps.Polyline;
+ButtonsConfigs = new ConfigButtonsMain();
+FormFieldConfigs = new FormFieldConfigs();
+probabilidade: number | null = null;
+pollingSub!: Subscription;
+localizacaoAtual!: GeolocationPosition;
+readonly IconsEnum = lib.IconsEnum;
+
+ViewWidth: number = 0;
 
 
 ngOnInit(): void {
@@ -68,21 +76,20 @@ if (!isNaN(lat) && !isNaN(lng)) {
 }
 
  else {
-      // Primeira tentativa
+ 
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           this.processarLocalizacao(pos, "primeira tentativa");
-          this.localizacaoAtual = pos; // guardo para comparar depois
+          this.localizacaoAtual = pos;
         },
         (err) => console.error("Erro 1:", err),
         { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
       );
 
-      // Segunda tentativa (após 4 segundos)
       setTimeout(() => {
         navigator.geolocation.getCurrentPosition(
           (pos) => {
-            // Só substitui se for mais preciso
+   
             if (
               !this.localizacaoAtual ||
               pos.coords.accuracy < this.localizacaoAtual.coords.accuracy
@@ -104,7 +111,14 @@ if (!isNaN(lat) && !isNaN(lng)) {
     }
   });
 
-  setTimeout(() => this.configButtons.btnVoltar(), 5);
+
+  this.configButtons(true);
+
+}
+
+configButtons(force: boolean = false) {
+
+  setTimeout(() => this.ButtonsConfigs.btnVoltar(), 5);
 }
 
 
@@ -134,11 +148,12 @@ private enviarLocalizacao(lat: number, lng: number): Subscription {
 
 
 startListenButtonClick(){
-  this.buttonService.click.pipe(takeUntil(this.destroy)).subscribe(async (model) => {
+  this.ButtonService.click.pipe(takeUntil(this.destroy)).subscribe(async (model) => {
   if(model.startsWith('voltar')){
    this.AppService.setButtonLaodingState('voltar',false);
   this.router.navigate(['/main']);
   }
+
 
   });
 
@@ -163,9 +178,6 @@ inicializarMapa(lat: number, lng: number) {
 
   this.geocoder = new google.maps.Geocoder();
 }
-
-
-
 
 
   criarLabelPersonalizada(texto: string): HTMLElement {
@@ -278,6 +290,8 @@ buscarSensorMaisProximo(lat: number, lng: number): Subscription {
       }
     });
   }
+
+
 }
 
 

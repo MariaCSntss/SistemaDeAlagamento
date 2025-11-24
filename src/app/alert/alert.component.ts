@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { AlertService } from './alert.service';
 import { AlertModel } from './alert.model';
 import { AlertTypesEnum } from './alert.enum';
@@ -10,7 +10,11 @@ import * as lib from 'lightning-tec-br-angular-components';
   templateUrl: './alert.component.html',
   styleUrl: './alert.component.css'
 })
-export class AlertComponent implements OnInit {
+export class AlertComponent implements OnInit,OnDestroy {
+
+  ngOnDestroy(): void {
+    clearInterval(this.interval);
+  }
 
   ngOnInit(){
     this.startListenToShow();
@@ -23,6 +27,8 @@ export class AlertComponent implements OnInit {
   type!:AlertTypesEnum;
   isVisible:boolean = false;
   Icon:string  = this.IconsEnum.Alert.toString();
+  progressBar :string = '';
+  interval :any;
 
   AlertService = inject(AlertService);
 
@@ -42,10 +48,21 @@ export class AlertComponent implements OnInit {
           this.Icon = lib.IconsEnum.NotDone;
         break;
       }
+      this.progressBar = '100%';
+      this.startProgressBarTimer();
     })
   }
-
   closeClicked(){
     this.isVisible = false;
+    clearInterval(this.interval);
+  }
+
+  startProgressBarTimer(){
+    let percent = 100;
+    this.interval = setInterval(()=>{
+      percent = percent - (20/this.text.length);
+      this.progressBar = percent+'%';
+      if(percent<=0) this.closeClicked();
+    },50)
   }
 }
